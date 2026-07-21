@@ -20,3 +20,20 @@ def folder_size(folder):
                 total += os.path.getsize(fp)
     return total
 
+def copy(scr,dst):
+    shutil.copy2(scr,dst)
+
+def move(scr,dst):
+    shutil.move(scr,dst)
+
+def delete(path):
+    if os.path.isfile(path):
+        shutil.rmtree(path)
+    else:
+        os.remove(path)
+
+def created(path):
+    return time.ctime(os.path.getctime(path))
+
+def modified(path):
+    return time.ctime(os.path.getmtime(path))
