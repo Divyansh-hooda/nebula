@@ -56,3 +56,55 @@ def get_favorites():
     rows=cur.fetchall()
     conn.close()
     return [x[0] for x in rows]
+
+def create_bookmark_table():
+    conn = connect()
+    cur = conn.cursor()
+
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS bookmarks(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        path TEXT UNIQUE
+    )
+    """)
+
+    conn.commit()
+    conn.close()
+
+def add_bookmark(path):
+    conn = connect()
+    cur = conn.cursor()
+
+    cur.execute(
+        "INSERT OR IGNORE INTO bookmarks(path) VALUES(?)",
+        (path,)
+    )
+
+    conn.commit()
+    conn.close()
+
+def remove_bookmark(path):
+    conn = connect()
+    cur = conn.cursor()
+
+    cur.execute(
+        "DELETE FROM bookmarks WHERE path=?",
+        (path,)
+    )
+
+    conn.commit()
+    conn.close()
+
+def get_bookmarks():
+    conn = connect()
+    cur = conn.cursor()
+
+    cur.execute(
+        "SELECT path FROM bookmarks ORDER BY path"
+    )
+
+    rows = cur.fetchall()
+
+    conn.close()
+
+    return [row[0] for row in rows]
