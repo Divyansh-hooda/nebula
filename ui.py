@@ -1,5 +1,6 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, simpledialog
+import shutil
 import os
 import sys
 import subprocess
@@ -68,9 +69,41 @@ class Nebula:
             fill="both",
             expand=True
         )
-        self.tree.bind(
-            "<Double-1>",
-            self.open_selected
+        self.tree.bind("<Double-1>", self.open_selected)
+        self.tree.bind("<Button-3>", self.show_menu)
+
+        self.menu = tk.Menu(
+            self.root,
+            tearoff=False
+        )
+
+        self.menu.add_command(
+            label="Open",
+            command=self.menu_open
+        )
+
+        self.menu.add_separator()
+
+        self.menu.add_command(
+            label="New Folder",
+            command=self.new_folder
+        )
+
+        self.menu.add_command(
+            label="Rename",
+            command=self.rename_item
+        )
+
+        self.menu.add_command(
+            label="Delete",
+            command=self.delete_item
+        )
+
+        self.menu.add_separator()
+
+        self.menu.add_command(
+            label="Refresh",
+            command=lambda: self.load(self.current, False)
         )
     def goto(self):
         path = self.path.get()
@@ -160,5 +193,136 @@ class Nebula:
         except Exception as e:
             messagebox.showerror(
                 "Error",
+                str(e)
+            )
+    def selected_path(self):
+        item = self.tree.focus()
+        if not item:
+            return None
+        values = self.tree.item(item)["values"]
+        if not values:
+            return None
+        return os.path.join(
+            self.current,
+            values[0]
+        )
+    def show_menu(self, event):
+        item = self.tree.identify_row(event.y)
+        if item:
+            self.tree.selection_set(item)
+            self.tree.focus(item)
+        self.menu.post(
+            event.x_root,
+            event.y_root
+        )
+    def menu_open(self):
+        path = self.selected_path()
+        if not path:
+            return
+        if os.path.isdir(path):
+            self.load(path)
+        else:
+            self.open_file(path)
+    def new_folder(self):
+        name = simpledialog.askstring(
+            "New Folder",
+            "Folder name:"
+        )
+        if not name:
+            return
+        path = os.path.join(
+            self.current,
+            name
+        )
+        try:
+            os.mkdir(path)
+            database.log(
+                "Create Folder",
+                path
+            )
+            self.load(self.current, False)
+        except Exception as e:
+            messagebox.showerror(
+                "Error",
+                str(e)
+            )
+    def rename_item(self):
+
+        path = self.selected_path()
+
+        if not path:
+            return
+
+        old = os.path.basename(path)
+
+        new = simpledialog.askstring(
+            "Rename",
+            "New Name:",
+            initialvalue=old
+        )
+
+        if not new:
+            return
+
+        new_path = os.path.join(
+            self.current,
+            new
+        )
+
+        try:
+
+            os.rename(
+                path,
+                new_path
+            )
+
+            database.log(
+                "Rename",
+                new_path
+            )
+
+            self.load(self.current, False)
+
+        except Exception as e:
+
+            messagebox.showerror(
+                "Rename Failed",
+                str(e)
+            )
+
+
+    def delete_item(self):
+
+        path = self.selected_path()
+
+        if not path:
+            return
+
+        ok = messagebox.askyesno(
+            "Delete",
+            f"Delete\n\n{os.path.basename(path)} ?"
+        )
+
+        if not ok:
+            return
+
+        try:
+
+            if os.path.isdir(path):
+                shutil.rmtree(path)
+            else:
+                os.remove(path)
+
+            database.log(
+                "Delete",
+                path
+            )
+
+            self.load(self.current, False)
+
+        except Exception as e:
+
+            messagebox.showerror(
+                "Delete Failed",
                 str(e)
             )
