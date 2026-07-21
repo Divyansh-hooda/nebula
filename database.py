@@ -2,6 +2,9 @@ import sqlite3
 import os
 import config
 
+def connect():
+    return sqlite3.connect(config.DATABASE_FILE)
+
 def initialize():
     os.makedirs(config.DATABASE_DIR, exist_ok=True)
     conn = sqlite3.connect(config.DATABASE_FILE)
