@@ -20,3 +20,32 @@ def initialize():
                 filepath TEXT UNIQUE
     )
     """)
+
+def log(action, path):
+    conn = sqlite3.connect(config.DATABASE_FILE)
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO history (action, filepath) VALUES (?, ?)",
+        (action, path)
+    )
+    conn.commit()
+    conn.close()
+
+def get_history():
+    conn = sqlite3.connect(config.DATABASE_FILE)
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM history ORDER BY id DESC")
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+def add_favorite(path):
+    conn=sqlite3.connect(config.DATABASE_FILE)
+    cur=conn.cursor()
+    cur.execute(
+        "INSERT OR IGNORE INTO favorites(filepath) VALUES (?)",
+        (path,)
+    )
+    conn.commit()
+    conn.close()
+
