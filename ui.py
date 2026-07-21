@@ -90,3 +90,15 @@ class Nebula:
                 return
             vals=self.tree.item(item)["values"]
             name=vals[0]
+            full=os.path.join(
+                self.current,
+                name
+            )
+            if os.path.isdir(full):
+                database.log(
+                    "open Folder",
+                    full
+                )
+                self.load(full)
+            else:
+                os.startfile(full)
