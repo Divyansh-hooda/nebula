@@ -1,104 +1,164 @@
 import tkinter as tk
-from tkinter import ttk, filedialog, messagebox
+from tkinter import ttk, messagebox
 import os
-
+import sys
+import subprocess
 import config
 import database
 import utils
 
 class Nebula:
     def __init__(self, root):
-        self.root=root
+        self.root = root
         self.root.title(config.APP_NAME)
         self.root.geometry(
             f"{config.WINDOW_WIDTH}x{config.WINDOW_HEIGHT}"
         )
         self.root.configure(bg=config.BACKGROUND)
-        self.current=os.path.expanduser("~")
+        self.history = []
+        self.current = os.path.expanduser("~")
         self.make_ui()
         self.load(self.current)
-
     def make_ui(self):
-        self.top = tk.Frame(self.root, bg=config.TOPBAR, height = 50)
-        self.top.pack(fill="x")
-        self.path=tk.Entry(
-            self.top,
-            font=config.FONT
+        top = tk.Frame(
+            self.root,
+            bg=config.TOPBAR,
+            height=50
         )
+        top.pack(fill="x")
+        tk.Button(
+            top,
+            text="← Back",
+            command=self.go_back
+        ).pack(side="left", padx=4, pady=5)
+        tk.Button(
+            top,
+            text="🏠 Home",
+            command=self.go_home
+        ).pack(side="left", padx=4)
+        tk.Button(
+            top,
+            text="⟳ Refresh",
+            command=lambda: self.load(self.current, False)
+        ).pack(side="left", padx=4)
+        self.path = tk.Entry(top)
         self.path.pack(
             side="left",
             fill="x",
             expand=True,
-            padx=10,
-            pady=10
+            padx=10
         )
-        go=tk.Button(
-            self.top,
+        tk.Button(
+            top,
             text="Go",
             command=self.goto
-        )
-        go.pack(side="left",padx=5)
-        self.tree=ttk.Treeview(
+        ).pack(side="left", padx=5)
+        self.tree = ttk.Treeview(
             self.root,
-            columns=("size","type"),
+            columns=("name", "size", "type"),
             show="headings"
         )
-        self.tree.heading("size",text="Size")
-        self.tree.heading("type",text="Type")
+        self.tree.heading("name", text="Name")
+        self.tree.heading("size", text="Size")
+        self.tree.heading("type", text="Type")
+        self.tree.column("name", width=650)
+        self.tree.column("size", width=120)
+        self.tree.column("type", width=120)
         self.tree.pack(
             fill="both",
             expand=True
         )
-        self.tree.bind("<Double-1>",self.open)
-        def goto(self):
-            p=self.path.get()
-            if os.path.exists(p):
-                self.load(p)
+        self.tree.bind(
+            "<Double-1>",
+            self.open_selected
+        )
+    def goto(self):
+        path = self.path.get()
+        if os.path.isdir(path):
+            self.load(path)
+        else:
+            messagebox.showerror(
+                "Error",
+                "Folder not found."
+            )
+    def go_home(self):
+        self.load(os.path.expanduser("~"))
+    def go_back(self):
+        if len(self.history) < 2:
+            return
+        self.history.pop()
+        previous = self.history.pop()
+        self.load(previous)
+    def load(self, folder, remember=True):
+        if not os.path.isdir(folder):
+            return
+        if remember:
+            self.history.append(folder)
+        self.current = folder
+        self.path.delete(0, tk.END)
+        self.path.insert(0, folder)
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+        try:
+            files = sorted(os.listdir(folder))
+        except Exception as e:
+            messagebox.showerror(
+                "Error",
+                str(e)
+            )
+            return
+        for name in files:
+            full = os.path.join(folder, name)
+            if os.path.isdir(full):
+                ftype = "Folder"
+                size = "-"
             else:
-                messagebox.showerror(
-                    "Error",
-                    "Folder not found"
-                )
-        def load(self,path):
-            self.current=path
-            self.path.delete(0,"end")
-            self.path.insert(0,path)
-            for i in self.tree.get_children():
-                self.tree.delete(i)
-            try:
-                files=os.listdir(path)
-            except:
-                return
-            for file in files:
-                full=os.path.join(path,file)
-                if os.path.isdir(full):
-                    type="folder"
-                    size="-"
-                else:
-                    type="file"
-                    size=utils.bytes_to_size(
+                ftype = "File"
+                try:
+                    size = utils.bytes_to_size(
                         os.path.getsize(full)
                     )
-                self.tree.insert(
-                    "",
-                    "end",
-                    values=(file,size,typ)
-                )
-        def open(self,event):
-            item=self.tree.focus()
-            if not item:
-                return
-            vals=self.tree.item(item)["values"]
-            name=vals[0]
-            full=os.path.join(
-                self.current,
-                name
+                except Exception:
+                    size = "?"
+            self.tree.insert(
+                "",
+                tk.END,
+                values=(name, size, ftype)
             )
-            if os.path.isdir(full):
-                database.log(
-                    "open Folder",
-                    full
-                )
-                self.load(full)
+    def open_selected(self, event):
+        item = self.tree.focus()
+        if not item:
+            return
+        values = self.tree.item(item)["values"]
+        if not values:
+            return
+        name = values[0]
+        full = os.path.join(
+            self.current,
+            name
+        )
+        if os.path.isdir(full):
+            database.log(
+                "Open Folder",
+                full
+            )
+            self.load(full)
+            return
+        database.log(
+            "Open File",
+            full
+        )
+        self.open_file(full)
+    def open_file(self, path):
+        try:
+            if sys.platform.startswith("win"):
+                os.startfile(path)
+            elif sys.platform == "darwin":
+                subprocess.run(["open", path])
             else:
-                os.startfile(full)
+                subprocess.run(["xdg-open", path])
+        except Exception as e:
+            messagebox.showerror(
+                "Error",
+                str(e)
+            )
