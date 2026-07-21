@@ -49,3 +49,10 @@ def add_favorite(path):
     conn.commit()
     conn.close()
 
+def get_favorites():
+    conn=sqlite3.connect(config.DATABASE_FILE)
+    cur=conn.cursor()
+    cur.execute("SELECT * FROM favorites")
+    rows=cur.fetchall()
+    conn.close()
+    return [x[0] for x in rows]
