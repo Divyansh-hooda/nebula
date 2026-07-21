@@ -9,8 +9,9 @@ import database
 import utils
 
 class Nebula:
-    def __init__(self, root):
+    def __init__(self, root, clipboard):
         self.root = root
+        self.clipboard = clipboard
         self.root.title(config.APP_NAME)
         self.root.geometry(
             f"{config.WINDOW_WIDTH}x{config.WINDOW_HEIGHT}"
@@ -21,6 +22,28 @@ class Nebula:
         self.make_ui()
         self.load(self.current)
     def make_ui(self):
+        self.root.bind(
+            "<Control-c>",
+            lambda e: self.copy_item()
+        )
+
+        self.root.bind(
+            "<Control-x>",
+            lambda e: self.cut_item()
+        )
+
+        self.root.bind(
+            "<Control-v>",
+            lambda e: self.paste_item()
+        )
+
+        self.root.bind(
+            "<F5>",
+            lambda e: self.load(
+                self.current,
+                False
+            )
+        )
         top = tk.Frame(
             self.root,
             bg=config.TOPBAR,
