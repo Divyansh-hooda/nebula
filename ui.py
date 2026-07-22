@@ -258,3 +258,58 @@ class Nebula:
             "name",
             width=500
         )
+        self.tree.column(
+            "size",
+            width=120
+        )
+        self.tree.column(
+            "type",
+            width=120
+        )
+        self.tree.pack(
+            fill="both",
+            expand=True
+        )
+        self.tree.bind(
+            "<Double-1>",
+            self.open_selected
+        )
+        self.tree.bind(
+            "<Button-3>",
+            self.show_menu
+        )
+        self.menu = tk.Menu(
+            self.root,
+            tearoff=False
+        )
+        self.menu.add_command(
+            label="Open",
+            command=self.menu_open
+        )
+        self.menu.add_separator()
+        self.menu.add_command(
+            label="New Folder",
+            command=self.new_folder
+        )
+        self.menu.add_command(
+            label="Rename",
+            command=self.rename_item
+        )
+        self.menu.add_separator()
+        self.menu.add_command(
+            label="Copy",
+            command=self.copy_item
+        )
+        self.menu.add_command(
+            label="Cut",
+            command=self.cut_item
+        )
+        self.menu.add_command(
+            label="Paste",
+            command=self.paste_item
+        )
+        self.menu.add_separator()
+        self.menu.add_command(
+            label="Delete",
+            command=self.delete_item
+        )
