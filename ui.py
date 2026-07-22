@@ -410,3 +410,90 @@ class Nebula:
                 "Error",
                 "Folder does not exist."
             )
+    def go_home(self):
+        self.load(
+            os.path.expanduser("~")
+        )
+    def go_back(self):
+        if len(self.history) <= 1:
+            return
+        self.history.pop()
+        previous = self.history.pop()
+        self.load(previous)
+    def load(self, folder, remember=True):
+        if self.loading:
+            return
+        self.loading = True
+        self.status_left.config(text="Loading...")
+        thread = threading.Thread(
+            target=self.load_worker,
+            args=(folder, remember),
+            daemon=True
+        )
+        thread.start()
+        self.root.after(100, self.check_queue)
+    def load_worker(self, folder, remember=True):
+        if not os.path.exists(folder):
+            return
+        if remember:
+            self.history.append(folder)
+        self.current = folder
+        self.add_recent(folder)
+        self.path.delete(
+            0,
+            tk.END
+        )
+        self.path.insert(
+            0,
+            folder
+        )
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+        try:
+            files = sorted(
+                os.listdir(folder),
+                key=str.lower
+            )
+        except Exception as e:
+            messagebox.showerror(
+                "Error",
+                str(e)
+            )
+            return
+        folders = []
+        normal_files = []
+        for name in files:
+            full = os.path.join(
+                folder,
+                name
+            )
+            if os.path.isdir(full):
+                folders.append(full)
+            else:
+                normal_files.append(full)
+        for full in folders + normal_files:
+            name = os.path.basename(full)
+            if os.path.isdir(full):
+                size = "-"
+                typ = "Folder"
+            else:
+                typ = "File"
+                try:
+                    size = utils.bytes_to_size(
+                        os.path.getsize(full)
+                    )
+                except:
+                    size = "?"
+            self.tree.insert(
+                "",
+                tk.END,
+                values=(
+                    name,
+                    size,
+                    typ
+                )
+            )
+        self.load_queue.put({
+            "folder": folder,
+            "count": len(files)
+        })
