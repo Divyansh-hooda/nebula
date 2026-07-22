@@ -57,3 +57,26 @@ class Nebula:
             padx=4,
             pady=5
         )
+        self.home_btn = tk.Button(
+            self.top,
+            text="🏠",
+            width=4,
+            command=self.go_home
+        )
+        self.home_btn.pack(
+            side="left"
+        )
+        self.refresh_btn = tk.Button(
+            self.top,
+            text="⟳",
+            width=4,
+            command=lambda: self.load(
+                self.current,
+                False
+            )
+        )
+        self.refresh_btn.pack(
+            side="left",
+            padx=4
+        )
+        self.path = tk.Entry(self.top, font=config.FONT)
