@@ -30,3 +30,43 @@ class CompressionManager:
             Callable[[CompressionResult], None]
         ] = None
 
+    def is_running(self):
+        return self.running
+
+    def cancel(self):
+        self.cancelled = True
+
+    def reset(self):
+        self.cancelled = False
+
+    def compress(
+        self,
+        source,
+        destination
+    ):
+
+        if self.running:
+            return False
+
+        self.reset()
+
+        self.thread = threading.Thread(
+            target=self._compress_worker,
+            args=(
+                source,
+                destination
+            ),
+            daemon=True
+        )
+
+        self.running = True
+
+        self.thread.start()
+
+        return True
+
+    def wait(self):
+
+        if self.thread:
+
+            self.thread.join()
