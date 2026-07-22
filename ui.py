@@ -497,3 +497,71 @@ class Nebula:
             "folder": folder,
             "count": len(files)
         })
+    def check_queue(self):
+        try:
+            data = self.load_queue.get_nowait()
+        except:
+            self.root.after(100, self.check_queue)
+            return
+
+        self.status_left.config(text=data["folder"])
+        self.status_right.config(text=f'{data["count"]} item(s)')
+        self.loading = False
+    def selected_path(self):
+        item = self.tree.focus()
+        if not item:
+            return None
+        values = self.tree.item(
+            item
+        )["values"]
+        if not values:
+            return None
+        return os.path.join(
+            self.current,
+            values[0]
+        )
+    def open_selected(
+        self,
+        event=None
+    ):
+        path = self.selected_path()
+        if not path:
+            return
+        if os.path.isdir(path):
+            database.log(
+                "Open Folder",
+                path
+            )
+            self.load(path)
+            return
+        database.log(
+            "Open File",
+            path
+        )
+        self.open_file(path)
+    def menu_open(self):
+        self.open_selected()
+    def open_file(
+        self,
+        path
+    ):
+        try:
+            if sys.platform.startswith(
+                "win"
+            ):
+                os.startfile(path)
+            elif sys.platform == "darwin":
+                subprocess.run(
+                    ["open", path],
+                    check=False
+                )
+            else:
+                subprocess.run(
+                    ["xdg-open", path],
+                    check=False
+                )
+        except Exception as e:
+            messagebox.showerror(
+                "Open Error",
+                str(e)
+            )
