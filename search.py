@@ -24,4 +24,44 @@ class SearchEngine:
         self.running = False
 
         self.on_result: Optional[Callable[[SearchResult], None]] = None
-        self.on_progr
+        self.on_progress: Optional[Callable[[str], None]] = None
+        self.on_finish: Optional[Callable[[], None]] = None
+
+    def is_running(self):
+        return self.running
+
+    def stop(self):
+        self._cancel.set()
+
+    def start(
+        self,
+        root,
+        keyword,
+        recursive=True,
+        extensions=None,
+        min_size=None,
+        max_size=None
+    ):
+        if self.running:
+            return False
+
+        self._cancel.clear()
+
+        self.running = True
+
+        self._thread = threading.Thread(
+            target=self._worker,
+            args=(
+                root,
+                keyword,
+                recursive,
+                extensions,
+                min_size,
+                max_size
+            ),
+            daemon=True
+        )
+
+        self._thread.start()
+
+        return True
