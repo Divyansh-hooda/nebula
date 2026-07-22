@@ -671,3 +671,123 @@ class Nebula:
                 except:
                     size = "?"
             self.tree.insert("", "end", values=(name, size, typ))
+
+    def properties(self):
+        path = self.selected_path()
+        if not path:
+            return
+        try:
+            stat = os.stat(path)
+            info = f"""
+    Name: {os.path.basename(path)}
+    Location:
+    {path}
+    Type:
+    {"Folder" if os.path.isdir(path) else "File"}
+    Size:
+    {utils.bytes_to_size(os.path.getsize(path)) if os.path.isfile(path) else "-"}
+    Created:
+    {time.ctime(stat.st_ctime)}
+    Modified:
+    {time.ctime(stat.st_mtime)}
+    Accessed:
+    {time.ctime(stat.st_atime)}
+    """
+            messagebox.showinfo("Properties", info)
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+
+    def add_favorite(self):
+        path = self.selected_path()
+
+        if not path:
+            path = self.current
+
+        if not os.path.isdir(path):
+            path = os.path.dirname(path)
+
+        if path in self.favorites:
+            messagebox.showinfo(
+                "Favorites",
+                "Folder already added."
+            )
+            return
+
+        database.add_bookmark(path)
+        self.favorites = database.get_bookmarks()
+
+        database.log(
+            "Favorite Added",
+            path
+        )
+
+        self.refresh_favorites()
+
+    def remove_favorite(self):
+        path = self.selected_path()
+
+        if not path:
+            path = self.current
+
+        if not os.path.isdir(path):
+            path = os.path.dirname(path)
+
+        database.remove_bookmark(path)
+
+        self.favorites = database.get_bookmarks()
+
+        self.refresh_favorites()
+
+    def add_recent(self, folder):
+        if folder in self.recent_folders:
+            self.recent_folders.remove(folder)
+
+        self.recent_folders.insert(0, folder)
+
+        self.recent_folders = self.recent_folders[:self.max_recent]
+
+        self.refresh_recent()
+
+
+    def refresh_recent(self):
+        for button in self.recent_buttons:
+            button.destroy()
+
+        self.recent_buttons.clear()
+
+        for folder in self.recent_folders:
+            btn = tk.Button(
+                self.recent_frame,
+                text=os.path.basename(folder) or folder,
+                anchor="w",
+                command=lambda p=folder: self.load(p)
+            )
+
+            btn.pack(
+                fill="x",
+                pady=1
+            )
+
+            self.recent_buttons.append(btn)
+
+
+    def refresh_favorites(self):
+        for button in self.favorite_buttons:
+            button.destroy()
+
+        self.favorite_buttons.clear()
+
+        for folder in self.favorites:
+            btn = tk.Button(
+                self.favorite_frame,
+                text=os.path.basename(folder) or folder,
+                anchor="w",
+                command=lambda p=folder: self.load(p)
+            )
+
+            btn.pack(
+                fill="x",
+                pady=1
+            )
+
+            self.favorite_buttons.append(btn)
