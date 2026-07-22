@@ -172,3 +172,89 @@ class SearchEngine:
 
         if self.on_result:
             self.on_result(result)
+    def get_results(self):
+        results = []
+
+        while not self._queue.empty():
+            try:
+                results.append(
+                    self._queue.get_nowait()
+                )
+            except queue.Empty:
+                break
+
+        return results
+
+    def clear(self):
+        self.stop()
+
+        while not self._queue.empty():
+            try:
+                self._queue.get_nowait()
+            except queue.Empty:
+                break
+
+        self.running = False
+
+    def wait(self):
+        if self._thread:
+            self._thread.join()
+
+    def search(
+        self,
+        root,
+        keyword,
+        recursive=True,
+        extensions=None,
+        min_size=None,
+        max_size=None
+    ):
+        self.clear()
+
+        self.start(
+            root=root,
+            keyword=keyword,
+            recursive=recursive,
+            extensions=extensions,
+            min_size=min_size,
+            max_size=max_size
+        )
+
+        self.wait()
+
+        return self.get_results()
+
+    @staticmethod
+    def sort_by_name(results):
+        return sorted(
+            results,
+            key=lambda r: r.name.lower()
+        )
+
+    @staticmethod
+    def sort_by_size(results):
+        return sorted(
+            results,
+            key=lambda r: r.size
+        )
+
+    @staticmethod
+    def sort_by_extension(results):
+        return sorted(
+            results,
+            key=lambda r: r.extension.lower()
+        )
+
+    @staticmethod
+    def folders(results):
+        return [
+            r for r in results
+            if r.is_dir
+        ]
+
+    @staticmethod
+    def files(results):
+        return [
+            r for r in results
+            if not r.is_dir
+        ]
