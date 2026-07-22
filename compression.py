@@ -133,3 +133,60 @@ class CompressionManager:
                         full,
                         arcname=relative
                     )
+    def extract(
+        self,
+        archive,
+        destination
+    ):
+        if self.running:
+            return False
+        self.reset()
+        self.thread = threading.Thread(
+            target=self._extract_worker,
+            args=(
+                archive,
+                destination
+            ),
+            daemon=True
+        )
+        self.running = True
+        self.thread.start()
+        return True
+    def _extract_worker(
+        self,
+        archive,
+        destination
+    ):
+        try:
+            with zipfile.ZipFile(
+                archive,
+                "r"
+            ) as zip_file:
+                members = zip_file.infolist()
+                for member in members:
+                    if self.cancelled:
+                        break
+                    if self.on_progress:
+                        self.on_progress(
+                            member.filename
+                        )
+                    zip_file.extract(
+                        member,
+                        destination
+                    )
+            result = CompressionResult(
+                source=archive,
+                destination=destination,
+                success=True,
+                message="Extraction completed successfully."
+            )
+        except Exception as e:
+            result = CompressionResult(
+                source=archive,
+                destination=destination,
+                success=False,
+                message=str(e)
+            )
+        self.running = False
+        if self.on_finish:
+            self.on_finish(result)
