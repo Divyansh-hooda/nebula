@@ -119,3 +119,56 @@ class SearchEngine:
 
         if self.on_finish:
             self.on_finish()
+    def _process_file(
+        self,
+        full_path,
+        filename,
+        keyword,
+        extensions,
+        min_size,
+        max_size
+    ):
+
+        if keyword and keyword not in filename.lower():
+            return
+
+        try:
+            is_dir = os.path.isdir(full_path)
+
+            if is_dir:
+                size = 0
+            else:
+                size = os.path.getsize(full_path)
+
+        except Exception:
+            return
+
+        extension = Path(full_path).suffix.lower()
+
+        if extensions:
+
+            if extension not in extensions:
+                return
+
+        if min_size is not None:
+
+            if size < min_size:
+                return
+
+        if max_size is not None:
+
+            if size > max_size:
+                return
+
+        result = SearchResult(
+            name=filename,
+            path=full_path,
+            is_dir=is_dir,
+            size=size,
+            extension=extension
+        )
+
+        self._queue.put(result)
+
+        if self.on_result:
+            self.on_result(result)
