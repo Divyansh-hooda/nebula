@@ -565,3 +565,109 @@ class Nebula:
                 "Open Error",
                 str(e)
             )
+    def show_menu(
+        self,
+        event
+    ):
+        row = self.tree.identify_row(
+            event.y
+        )
+        if row:
+            self.tree.selection_set(row)
+            self.tree.focus(row)
+        self.menu.tk_popup(
+            event.x_root,
+            event.y_root
+        )
+    def new_folder(self):
+        name = simpledialog.askstring("New Folder", "Folder name:")
+        if not name:
+            return
+        path = os.path.join(self.current, name)
+        try:
+            os.mkdir(path)
+            database.log("Create Folder", path)
+            self.load(self.current, False)
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+    def rename_item(self):
+        path = self.selected_path()
+        if not path:
+            return
+        old_name = os.path.basename(path)
+        new_name = simpledialog.askstring("Rename", "New name:", initialvalue=old_name)
+        if not new_name or new_name == old_name:
+            return
+        new_path = os.path.join(self.current, new_name)
+        try:
+            os.rename(path, new_path)
+            database.log("Rename", f"{old_name} -> {new_name}")
+            self.load(self.current, False)
+        except Exception as e:
+            messagebox.showerror("Rename Failed", str(e))
+    def delete_item(self):
+        path = self.selected_path()
+        if not path:
+            return
+        confirm = messagebox.askyesno("Delete", f"Delete '{os.path.basename(path)}'?")
+        if not confirm:
+            return
+        try:
+            if os.path.isdir(path):
+                shutil.rmtree(path)
+            else:
+                os.remove(path)
+            database.log("Delete", path)
+            self.load(self.current, False)
+        except Exception as e:
+            messagebox.showerror("Delete Failed", str(e))
+    def copy_item(self):
+        path = self.selected_path()
+        if not path:
+            return
+        self.clipboard.copy(path)
+        database.log("Copy", path)
+        self.status_left.config(
+            text=f"Copied: {os.path.basename(path)}"
+        )
+    def cut_item(self):
+        path = self.selected_path()
+        if not path:
+            return
+        self.clipboard.cut(path)
+        database.log("Cut", path)
+        self.status_left.config(
+            text=f"Cut: {os.path.basename(path)}"
+        )
+    def paste_item(self):
+        success, result = self.clipboard.paste(self.current)
+        if success:
+            database.log("Paste", result)
+            self.load(self.current, False)
+            self.status_left.config(
+                text="Paste completed"
+            )
+        else:
+            messagebox.showerror("Paste", result)
+    def live_search(self, *args):
+        query = self.search_var.get().lower().strip()
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+        try:
+            files = sorted(os.listdir(self.current), key=str.lower)
+        except:
+            return
+        for name in files:
+            if query not in name.lower():
+                continue
+            full = os.path.join(self.current, name)
+            if os.path.isdir(full):
+                size = "-"
+                typ = "Folder"
+            else:
+                typ = "File"
+                try:
+                    size = utils.bytes_to_size(os.path.getsize(full))
+                except:
+                    size = "?"
+            self.tree.insert("", "end", values=(name, size, typ))
