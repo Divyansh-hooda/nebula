@@ -80,3 +80,83 @@ class Nebula:
             padx=4
         )
         self.path = tk.Entry(self.top, font=config.FONT)
+        self.path.pack(side="left", fill="x", expand=True, padx=8)
+
+        self.go_btn = tk.Button(self.top, text="Go", command=self.goto)
+        self.go_btn.pack(side="left", padx=5)
+
+        self.search_var = tk.StringVar()
+
+        self.search_entry = tk.Entry(
+            self.top,
+            textvariable=self.search_var,
+            width=30
+        )
+
+        self.search_entry.pack(side="right", padx=10)
+
+        self.search_var.trace_add(
+            "write",
+            self.live_search
+        )
+        self.go_btn.pack(
+            side="left",
+            padx=5
+        )
+        self.body = tk.Frame(
+            self.root,
+            bg=config.BACKGROUND
+        )
+        self.body.pack(
+            fill="both",
+            expand=True
+        )
+        self.sidebar = tk.Frame(
+            self.body,
+            bg=config.SIDEBAR,
+            width=220
+        )
+        self.sidebar.pack(
+            side="left",
+            fill="y"
+        )
+        title = tk.Label(
+            self.sidebar,
+            text="Project Nebula",
+            bg=config.SIDEBAR,
+            fg="white",
+            font=config.BIG_FONT
+        )
+        title.pack(
+            pady=15
+        )
+        tk.Label(
+            self.sidebar,
+            text="Favorites",
+            bg=config.SIDEBAR,
+            fg="white",
+            font=("Arial", 10, "bold")
+        ).pack(pady=(10, 5))
+
+        self.favorite_frame = tk.Frame(
+            self.sidebar,
+            bg=config.SIDEBAR
+        )
+
+        self.favorite_frame.pack(
+            fill="x",
+            padx=5
+        )
+        tk.Label(
+            self.sidebar,
+            text="Recent",
+            bg=config.SIDEBAR,
+            fg="white",
+            font=("Arial", 10, "bold")
+        ).pack(pady=(15, 5))
+
+        self.recent_frame = tk.Frame(
+            self.sidebar,
+            bg=config.SIDEBAR
+        )
+
