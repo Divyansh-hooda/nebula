@@ -160,3 +160,15 @@ class Nebula:
             bg=config.SIDEBAR
         )
 
+        self.recent_frame.pack(
+            fill="x",
+            padx=5
+        )
+
+        self.recent_buttons = []
+        self.home_side = tk.Button(
+            self.sidebar,
+            text="🏠 Home",
+            anchor="w",
+            command=self.go_home
+        )
