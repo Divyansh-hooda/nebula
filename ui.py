@@ -313,3 +313,45 @@ class Nebula:
             label="Delete",
             command=self.delete_item
         )
+
+        self.menu.add_separator()
+
+        self.menu.add_command(
+            label="Properties",
+            command=self.properties
+        )
+
+        self.menu.add_command(
+            label="Add to Favorites",
+            command=self.add_favorite
+        )
+        self.menu.add_command(
+            label="Remove Favorite",
+            command=self.remove_favorite
+        )
+        self.menu.add_command(
+            label="Remove Favorite",
+            command=self.remove_favorite
+        )
+        self.menu.add_separator()
+
+        self.menu.add_command(
+            label="Refresh",
+            command=lambda: self.load(
+                self.current,
+                False
+            )
+        )
+        self.status = tk.Frame(
+            self.root,
+            bd=1,
+            relief="sunken"
+        )
+
+        self.status.pack(fill="x")
+
+        self.status_left = tk.Label(
+            self.status,
+            text="Ready",
+            anchor="w"
+        )
