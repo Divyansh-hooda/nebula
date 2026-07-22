@@ -65,3 +65,57 @@ class SearchEngine:
         self._thread.start()
 
         return True
+    def _worker(
+        self,
+        root,
+        keyword,
+        recursive,
+        extensions,
+        min_size,
+        max_size
+    ):
+        keyword = keyword.lower()
+
+        if extensions:
+            extensions = {
+                ext.lower().strip()
+                for ext in extensions
+            }
+
+        try:
+            if recursive:
+                iterator = os.walk(root)
+            else:
+                iterator = [(root, [], os.listdir(root))]
+
+            for current, _, files in iterator:
+
+                if self._cancel.is_set():
+                    break
+
+                if self.on_progress:
+                    self.on_progress(current)
+
+                for filename in files:
+
+                    if self._cancel.is_set():
+                        break
+
+                    full = os.path.join(current, filename)
+
+                    self._process_file(
+                        full,
+                        filename,
+                        keyword,
+                        extensions,
+                        min_size,
+                        max_size
+                    )
+
+        except Exception:
+            pass
+
+        self.running = False
+
+        if self.on_finish:
+            self.on_finish()
