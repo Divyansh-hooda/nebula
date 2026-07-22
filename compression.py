@@ -86,23 +86,50 @@ class CompressionManager:
         source,
         destination
     ):
-
         with zipfile.ZipFile(
             destination,
             "w",
             zipfile.ZIP_DEFLATED
         ) as archive:
-
             if self.cancelled:
                 return
-
             if self.on_progress:
-
                 self.on_progress(
                     os.path.basename(source)
                 )
-
             archive.write(
                 source,
                 arcname=os.path.basename(source)
             )
+    def _compress_directory(
+        self,
+        source,
+        destination
+    ):
+        with zipfile.ZipFile(
+            destination,
+            "w",
+            zipfile.ZIP_DEFLATED
+        ) as archive:
+            for root, dirs, files in os.walk(source):
+                if self.cancelled:
+                    return
+                for file in files:
+                    if self.cancelled:
+                        return
+                    full = os.path.join(
+                        root,
+                        file
+                    )
+                    relative = os.path.relpath(
+                        full,
+                        source
+                    )
+                    if self.on_progress:
+                        self.on_progress(
+                            relative
+                        )
+                    archive.write(
+                        full,
+                        arcname=relative
+                    )
