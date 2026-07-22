@@ -172,3 +172,35 @@ class Nebula:
             anchor="w",
             command=self.go_home
         )
+        self.home_side.pack(
+            fill="x",
+            padx=8,
+            pady=2
+        )
+        self.desktop_side = tk.Button(
+            self.sidebar,
+            text="🖥 Desktop",
+            anchor="w",
+            command=lambda:
+            self.load(
+                os.path.join(os.path.expanduser("~"),"Desktop")
+            )
+        )
+        self.desktop_side.pack(
+            fill="x",
+            padx=8,
+            pady=2
+        )
+        self.documents_side = tk.Button(
+            self.sidebar,
+            text="📄 Documents",
+            anchor="w",
+            command=lambda:
+            self.load(
+                os.path.join(
+                    os.path.expanduser("~"),
+                    "Documents"
+                )
+            )
+        )
+        s
