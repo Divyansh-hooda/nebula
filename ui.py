@@ -203,4 +203,58 @@ class Nebula:
                 )
             )
         )
-        s
+        self.documents_side.pack(
+            fill="x",
+            padx=8,
+            pady=2
+        )
+        self.downloads_side = tk.Button(
+            self.sidebar,
+            text="⬇ Downloads",
+            anchor="w",
+            command=lambda:
+            self.load(
+                os.path.join(
+                    os.path.expanduser("~"),
+                    "Downloads"
+                )
+            )
+        )
+        self.downloads_side.pack(
+            fill="x",
+            padx=8,
+            pady=2
+        )
+        self.center = tk.Frame(
+            self.body
+        )
+        self.center.pack(
+            side="left",
+            fill="both",
+            expand=True
+        )
+        self.tree = ttk.Treeview(
+            self.center,
+            columns=(
+                "name",
+                "size",
+                "type"
+            ),
+            show="headings"
+        )
+        self.tree.heading(
+            "name",
+            text="Name"
+        )
+        self.tree.heading(
+            "size",
+            text="Size"
+        )
+        self.tree.heading(
+            "type",
+            text="Type"
+        )
+        self.tree.column(
+            "name",
+            width=500
+        )
