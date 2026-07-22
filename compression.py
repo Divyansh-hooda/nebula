@@ -81,3 +81,28 @@ class CompressionManager:
         self.running = False
         if self.on_finish:
             self.on_finish(result)
+    def _compress_file(
+        self,
+        source,
+        destination
+    ):
+
+        with zipfile.ZipFile(
+            destination,
+            "w",
+            zipfile.ZIP_DEFLATED
+        ) as archive:
+
+            if self.cancelled:
+                return
+
+            if self.on_progress:
+
+                self.on_progress(
+                    os.path.basename(source)
+                )
+
+            archive.write(
+                source,
+                arcname=os.path.basename(source)
+            )
