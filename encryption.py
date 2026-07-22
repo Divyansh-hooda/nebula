@@ -58,3 +58,26 @@ class EncryptionManager:
     def is_running(self):
 
         return self.running
+    def derive_key(
+        self,
+        password,
+        salt
+    ):
+
+        kdf = PBKDF2HMAC(
+
+            algorithm=hashes.SHA256(),
+
+            length=32,
+
+            salt=salt,
+
+            iterations=390000,
+
+            backend=default_backend()
+
+        )
+
+        return kdf.derive(
+            password.encode()
+        )
