@@ -190,3 +190,81 @@ class CompressionManager:
         self.running = False
         if self.on_finish:
             self.on_finish(result)
+    @staticmethod
+    def is_zip(path):
+
+        return zipfile.is_zipfile(path)
+
+    @staticmethod
+    def list_files(path):
+
+        with zipfile.ZipFile(
+            path,
+            "r"
+        ) as archive:
+
+            return archive.namelist()
+
+    @staticmethod
+    def archive_size(path):
+
+        return os.path.getsize(path)
+
+    @staticmethod
+    def file_count(path):
+
+        with zipfile.ZipFile(
+            path,
+            "r"
+        ) as archive:
+
+            return len(
+                archive.infolist()
+            )
+
+    @staticmethod
+    def compressed_size(path):
+
+        total = 0
+
+        with zipfile.ZipFile(
+            path,
+            "r"
+        ) as archive:
+
+            for info in archive.infolist():
+
+                total += info.compress_size
+
+        return total
+
+    @staticmethod
+    def original_size(path):
+
+        total = 0
+
+        with zipfile.ZipFile(
+            path,
+            "r"
+        ) as archive:
+
+            for info in archive.infolist():
+
+                total += info.file_size
+
+        return total
+
+    @staticmethod
+    def compression_ratio(path):
+
+        original = CompressionManager.original_size(path)
+
+        compressed = CompressionManager.compressed_size(path)
+
+        if original == 0:
+            return 0.0
+
+        return round(
+            (1 - compressed / original) * 100,
+            2
+        )
