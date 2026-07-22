@@ -355,3 +355,58 @@ class Nebula:
             text="Ready",
             anchor="w"
         )
+
+        self.status_left.pack(
+            side="left",
+            padx=5
+        )
+
+        self.status_right = tk.Label(
+            self.status,
+            text="0 Items",
+            anchor="e"
+        )
+
+        self.status_right.pack(
+            side="right",
+            padx=5
+        )
+        self.root.bind(
+            "<Control-c>",
+            lambda e:
+            self.copy_item()
+        )
+        self.root.bind(
+            "<Control-x>",
+            lambda e:
+            self.cut_item()
+        )
+        self.root.bind(
+            "<Control-v>",
+            lambda e:
+            self.paste_item()
+        )
+        self.root.bind(
+            "<F5>",
+            lambda e:
+            self.load(
+                self.current,
+                False
+            )
+        )
+        self.root.bind("<Delete>", lambda e: self.delete_item())
+        self.root.bind("<F2>", lambda e: self.rename_item())
+        self.root.bind("<Return>", lambda e: self.open_selected())
+        self.root.bind("<Control-n>", lambda e: self.new_folder())
+        self.root.bind("<Alt-Return>", lambda e: self.properties())
+    def goto(self):
+        path = self.path.get().strip()
+        if not path:
+            return
+        if os.path.isdir(path):
+            self.load(path)
+        else:
+            messagebox.showerror(
+                "Error",
+                "Folder does not exist."
+            )
