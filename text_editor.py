@@ -234,3 +234,34 @@ class TextEditor(tk.Toplevel):
             label="Toggle Word Wrap",
             command=self.toggle_wrap
         )
+    def bind_events(self):
+
+        self.bind(
+            "<Control-s>",
+            lambda e: self.save()
+        )
+
+        self.bind(
+            "<Control-o>",
+            lambda e: self.open_dialog()
+        )
+
+        self.bind(
+            "<Control-n>",
+            lambda e: self.new_file()
+        )
+
+        self.bind(
+            "<Control-Shift-S>",
+            lambda e: self.save_as()
+        )
+
+        self.text.bind(
+            "<<Modified>>",
+            self.text_modified
+        )
+
+        self.protocol(
+            "WM_DELETE_WINDOW",
+            self.close_editor
+        )
