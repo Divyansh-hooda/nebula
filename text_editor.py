@@ -265,3 +265,22 @@ class TextEditor(tk.Toplevel):
             "WM_DELETE_WINDOW",
             self.close_editor
         )
+    def new_file(self):
+
+        if not self.confirm_discard():
+            return
+
+        self.text.delete(
+            "1.0",
+            tk.END
+        )
+
+        self.file_path = None
+
+        self.modified = False
+
+        self.title(
+            "Nebula Text Editor"
+        )
+
+        self.update_status()
