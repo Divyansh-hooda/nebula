@@ -284,3 +284,11 @@ class TextEditor(tk.Toplevel):
         )
 
         self.update_status()
+    def open_dialog(self):
+
+        path = filedialog.askopenfilename()
+
+        if not path:
+            return
+
+        self.open_file(path)
