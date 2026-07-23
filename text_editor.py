@@ -292,3 +292,49 @@ class TextEditor(tk.Toplevel):
             return
 
         self.open_file(path)
+    def open_file(
+        self,
+        path
+    ):
+
+        if not self.confirm_discard():
+            return
+
+        try:
+
+            with open(
+                path,
+                "r",
+                encoding="utf-8"
+            ) as file:
+
+                data = file.read()
+
+            self.text.delete(
+                "1.0",
+                tk.END
+            )
+
+            self.text.insert(
+                "1.0",
+                data
+            )
+
+            self.file_path = path
+
+            self.modified = False
+
+            self.text.edit_modified(False)
+
+            self.title(
+                f"Nebula Text Editor - {os.path.basename(path)}"
+            )
+
+            self.update_status()
+
+        except Exception as e:
+
+            messagebox.showerror(
+                "Open File",
+                str(e)
+            )
