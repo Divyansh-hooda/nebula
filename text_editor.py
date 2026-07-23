@@ -44,3 +44,61 @@ class TextEditor(tk.Toplevel):
 
         if file_path:
             self.open_file(file_path)
+    def create_widgets(self):
+
+        self.main = ttk.Frame(self)
+
+        self.main.pack(
+            fill="both",
+            expand=True
+        )
+
+        self.text = tk.Text(
+            self.main,
+            undo=True,
+            wrap="none",
+            font=self.editor_font
+        )
+
+        self.v_scroll = ttk.Scrollbar(
+            self.main,
+            orient="vertical",
+            command=self.text.yview
+        )
+
+        self.h_scroll = ttk.Scrollbar(
+            self.main,
+            orient="horizontal",
+            command=self.text.xview
+        )
+
+        self.text.configure(
+            yscrollcommand=self.v_scroll.set,
+            xscrollcommand=self.h_scroll.set
+        )
+
+        self.v_scroll.pack(
+            side="right",
+            fill="y"
+        )
+
+        self.h_scroll.pack(
+            side="bottom",
+            fill="x"
+        )
+
+        self.text.pack(
+            fill="both",
+            expand=True
+        )
+
+        self.status = ttk.Label(
+            self,
+            anchor="w"
+        )
+
+        self.status.pack(
+            fill="x"
+        )
+
+        self.update_status()
