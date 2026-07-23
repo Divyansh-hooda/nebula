@@ -455,3 +455,21 @@ class TextEditor(tk.Toplevel):
         self.status.config(
             text=status
         )
+    def zoom_in(self):
+
+        self.font_size += 1
+
+        self.editor_font.configure(
+            size=self.font_size
+        )
+
+    def zoom_out(self):
+
+        if self.font_size <= 6:
+            return
+
+        self.font_size -= 1
+
+        self.editor_font.configure(
+            size=self.font_size
+        )
