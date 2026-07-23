@@ -412,3 +412,15 @@ class TextEditor(tk.Toplevel):
             return
 
         self.destroy()
+    def text_modified(
+        self,
+        event=None
+    ):
+
+        if self.text.edit_modified():
+
+            self.modified = True
+
+            self.text.edit_modified(False)
+
+            self.update_status()
