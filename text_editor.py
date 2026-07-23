@@ -216,3 +216,21 @@ class TextEditor(tk.Toplevel):
             command=lambda:
             self.text.event_generate("<<SelectAll>>")
         )
+        self.view_menu.add_command(
+            label="Zoom In",
+            accelerator="Ctrl++",
+            command=self.zoom_in
+        )
+
+        self.view_menu.add_command(
+            label="Zoom Out",
+            accelerator="Ctrl+-",
+            command=self.zoom_out
+        )
+
+        self.view_menu.add_separator()
+
+        self.view_menu.add_command(
+            label="Toggle Word Wrap",
+            command=self.toggle_wrap
+        )
