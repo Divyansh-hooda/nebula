@@ -171,3 +171,48 @@ class TextEditor(tk.Toplevel):
             label="Exit",
             command=self.close_editor
         )
+        self.edit_menu.add_command(
+            label="Undo",
+            accelerator="Ctrl+Z",
+            command=lambda:
+            self.text.event_generate("<<Undo>>")
+        )
+
+        self.edit_menu.add_command(
+            label="Redo",
+            accelerator="Ctrl+Y",
+            command=lambda:
+            self.text.event_generate("<<Redo>>")
+        )
+
+        self.edit_menu.add_separator()
+
+        self.edit_menu.add_command(
+            label="Cut",
+            accelerator="Ctrl+X",
+            command=lambda:
+            self.text.event_generate("<<Cut>>")
+        )
+
+        self.edit_menu.add_command(
+            label="Copy",
+            accelerator="Ctrl+C",
+            command=lambda:
+            self.text.event_generate("<<Copy>>")
+        )
+
+        self.edit_menu.add_command(
+            label="Paste",
+            accelerator="Ctrl+V",
+            command=lambda:
+            self.text.event_generate("<<Paste>>")
+        )
+
+        self.edit_menu.add_separator()
+
+        self.edit_menu.add_command(
+            label="Select All",
+            accelerator="Ctrl+A",
+            command=lambda:
+            self.text.event_generate("<<SelectAll>>")
+        )
