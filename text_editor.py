@@ -473,3 +473,25 @@ class TextEditor(tk.Toplevel):
         self.editor_font.configure(
             size=self.font_size
         )
+    def toggle_wrap(self):
+
+        self.wrap = not self.wrap
+
+        if self.wrap:
+
+            self.text.config(
+                wrap="word"
+            )
+
+            self.h_scroll.pack_forget()
+
+        else:
+
+            self.text.config(
+                wrap="none"
+            )
+
+            self.h_scroll.pack(
+                side="bottom",
+                fill="x"
+            )
