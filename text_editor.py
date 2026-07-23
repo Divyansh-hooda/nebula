@@ -424,3 +424,34 @@ class TextEditor(tk.Toplevel):
             self.text.edit_modified(False)
 
             self.update_status()
+    def update_status(self):
+
+        cursor = self.text.index(
+            tk.INSERT
+        )
+
+        line, column = cursor.split(".")
+
+        if self.file_path:
+
+            filename = os.path.basename(
+                self.file_path
+            )
+
+        else:
+
+            filename = "Untitled"
+
+        status = (
+            f"{filename}    "
+            f"Line {line}    "
+            f"Column {int(column)+1}"
+        )
+
+        if self.modified:
+
+            status += "    Modified"
+
+        self.status.config(
+            text=status
+        )
