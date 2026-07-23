@@ -141,3 +141,33 @@ class TextEditor(tk.Toplevel):
             label="View",
             menu=self.view_menu
         )
+        self.file_menu.add_command(
+            label="New",
+            accelerator="Ctrl+N",
+            command=self.new_file
+        )
+
+        self.file_menu.add_command(
+            label="Open...",
+            accelerator="Ctrl+O",
+            command=self.open_dialog
+        )
+
+        self.file_menu.add_command(
+            label="Save",
+            accelerator="Ctrl+S",
+            command=self.save
+        )
+
+        self.file_menu.add_command(
+            label="Save As...",
+            accelerator="Ctrl+Shift+S",
+            command=self.save_as
+        )
+
+        self.file_menu.add_separator()
+
+        self.file_menu.add_command(
+            label="Exit",
+            command=self.close_editor
+        )
