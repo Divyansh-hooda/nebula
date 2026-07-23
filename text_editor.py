@@ -385,3 +385,30 @@ class TextEditor(tk.Toplevel):
         self.title(
             f"Nebula Text Editor - {os.path.basename(path)}"
         )
+    def confirm_discard(self):
+
+        if not self.modified:
+            return True
+
+        answer = messagebox.askyesnocancel(
+            "Unsaved Changes",
+            "Do you want to save changes?"
+        )
+
+        if answer is None:
+            return False
+
+        if answer:
+            self.save()
+
+            if self.modified:
+                return False
+
+        return True
+
+    def close_editor(self):
+
+        if not self.confirm_discard():
+            return
+
+        self.destroy()
