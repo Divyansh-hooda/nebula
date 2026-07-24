@@ -44,10 +44,10 @@ class TextEditor(tk.Toplevel):
 
         if file_path:
             self.open_file(file_path)
-            self.after(
-                50,
-                self.text.focus_set
-            )
+        self.after(
+            50,
+            self.text.focus_set
+        )
     def create_widgets(self):
 
         self.main = ttk.Frame(self)
@@ -273,6 +273,10 @@ class TextEditor(tk.Toplevel):
         self.protocol(
             "WM_DELETE_WINDOW",
             self.close_editor
+        )
+        self.text.bind(
+            "<Button-1>",
+            lambda e: self.text.focus_set()
         )
     def new_file(self):
 
