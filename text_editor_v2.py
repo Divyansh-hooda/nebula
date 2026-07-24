@@ -395,3 +395,56 @@ class TextEditor(
         self.open_file(
             path
         )
+    def open_file(
+        self,
+        path
+    ):
+
+        if not self.confirm_discard():
+
+            return
+
+        try:
+
+            with open(
+                path,
+                "r",
+                encoding="utf-8"
+            ) as file:
+
+                content = file.read()
+
+            self.text.delete(
+                "1.0",
+                tk.END
+            )
+
+            self.text.insert(
+                "1.0",
+                content
+            )
+
+            self.file_path = path
+
+            self.modified = False
+
+            self.text.edit_modified(
+                False
+            )
+
+            self.title(
+                f"Nebula Text Editor — {os.path.basename(path)}"
+            )
+
+            self.update_line_numbers()
+
+            self.update_status()
+
+            self.focus_editor()
+
+        except Exception as e:
+
+            messagebox.showerror(
+                "Open File",
+                str(e)
+            )
