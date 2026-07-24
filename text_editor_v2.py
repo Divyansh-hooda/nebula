@@ -59,3 +59,17 @@ class TextEditor(
             100,
             self.focus_editor
         )
+    def focus_editor(
+        self
+    ):
+
+        self.text.focus_force()
+
+        self.text.mark_set(
+            "insert",
+            "end-1c"
+        )
+
+        self.text.see(
+            "insert"
+        )
