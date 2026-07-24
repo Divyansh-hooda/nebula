@@ -487,3 +487,26 @@ class TextEditor(
                 "Save",
                 str(e)
             )
+    def save_as(
+        self
+    ):
+
+        path = filedialog.asksaveasfilename(
+
+            defaultextension=".txt"
+
+        )
+
+        if not path:
+
+            return
+
+        self.file_path = path
+
+        self.save()
+
+        self.title(
+
+            f"Nebula Text Editor — {os.path.basename(path)}"
+
+        )
