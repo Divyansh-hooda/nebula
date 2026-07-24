@@ -44,6 +44,10 @@ class TextEditor(tk.Toplevel):
 
         if file_path:
             self.open_file(file_path)
+            self.after(
+                50,
+                self.text.focus_set
+            )
     def create_widgets(self):
 
         self.main = ttk.Frame(self)
@@ -255,6 +259,10 @@ class TextEditor(tk.Toplevel):
         self.bind(
             "<Command-Shift-S>",
             lambda e: self.save_as()
+        )
+        self.bind(
+            "<Command-Shift-z>",
+            lambda e: self.text.event_generate("<<Redo>>")
         )
 
         self.text.bind(
