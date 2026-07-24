@@ -510,3 +510,12 @@ class TextEditor(
             f"Nebula Text Editor — {os.path.basename(path)}"
 
         )
+    def close_editor(
+        self
+    ):
+
+        if not self.confirm_discard():
+
+            return
+
+        self.destroy()
