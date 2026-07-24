@@ -127,3 +127,26 @@ class TextEditor(
             column=1,
             sticky="nsew"
         )
+        self.v_scroll = ttk.Scrollbar(
+            self.main_frame,
+            orient="vertical",
+            command=self.on_vertical_scroll
+        )
+
+        self.v_scroll.grid(
+            row=0,
+            column=2,
+            sticky="ns"
+        )
+
+        self.h_scroll = ttk.Scrollbar(
+            self.main_frame,
+            orient="horizontal",
+            command=self.text.xview
+        )
+
+        self.h_scroll.grid(
+            row=1,
+            column=1,
+            sticky="ew"
+        )
