@@ -73,3 +73,25 @@ class TextEditor(
         self.text.see(
             "insert"
         )
+    def create_widgets(
+        self
+    ):
+
+        self.main_frame = ttk.Frame(
+            self
+        )
+
+        self.main_frame.pack(
+            fill="both",
+            expand=True
+        )
+
+        self.main_frame.rowconfigure(
+            0,
+            weight=1
+        )
+
+        self.main_frame.columnconfigure(
+            1,
+            weight=1
+        )
