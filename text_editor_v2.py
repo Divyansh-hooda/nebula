@@ -448,3 +448,42 @@ class TextEditor(
                 "Open File",
                 str(e)
             )
+    def save(
+        self
+    ):
+
+        if self.file_path is None:
+
+            return self.save_as()
+
+        try:
+
+            with open(
+                self.file_path,
+                "w",
+                encoding="utf-8"
+            ) as file:
+
+                file.write(
+
+                    self.text.get(
+                        "1.0",
+                        "end-1c"
+                    )
+
+                )
+
+            self.modified = False
+
+            self.text.edit_modified(
+                False
+            )
+
+            self.update_status()
+
+        except Exception as e:
+
+            messagebox.showerror(
+                "Save",
+                str(e)
+            )
