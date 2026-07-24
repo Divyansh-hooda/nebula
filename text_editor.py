@@ -57,6 +57,16 @@ class TextEditor(tk.Toplevel):
             expand=True
         )
 
+        self.main.rowconfigure(
+            0,
+            weight=1
+        )
+
+        self.main.columnconfigure(
+            0,
+            weight=1
+        )
+
         self.text = tk.Text(
             self.main,
             undo=True,
@@ -81,20 +91,22 @@ class TextEditor(tk.Toplevel):
             xscrollcommand=self.h_scroll.set
         )
 
-        self.v_scroll.pack(
-            side="right",
-            fill="y"
+        self.text.grid(
+            row=0,
+            column=0,
+            sticky="nsew"
         )
 
-        self.h_scroll.pack(
-            side="bottom",
-            fill="x"
+        self.v_scroll.grid(
+            row=0,
+            column=1,
+            sticky="ns"
         )
 
-        self.text.pack(
-            side="left",
-            fill="both",
-            expand=True
+        self.h_scroll.grid(
+            row=1,
+            column=0,
+            sticky="ew"
         )
 
         self.status = ttk.Label(
@@ -185,7 +197,7 @@ class TextEditor(tk.Toplevel):
 
         self.edit_menu.add_command(
             label="Redo",
-            accelerator="⌘+Y",
+            accelerator="⇧⌘Z",
             command=lambda:
             self.text.event_generate("<<Redo>>")
         )
@@ -273,10 +285,6 @@ class TextEditor(tk.Toplevel):
         self.protocol(
             "WM_DELETE_WINDOW",
             self.close_editor
-        )
-        self.text.bind(
-            "<Button-1>",
-            lambda e: self.text.focus_set()
         )
     def new_file(self):
 
