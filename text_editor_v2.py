@@ -43,3 +43,19 @@ class TextEditor(
             800,
             500
         )
+        self.create_widgets()
+
+        self.create_menu()
+
+        self.bind_events()
+
+        if file_path:
+
+            self.open_file(
+                file_path
+            )
+
+        self.after(
+            100,
+            self.focus_editor
+        )
