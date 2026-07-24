@@ -304,3 +304,55 @@ class TextEditor(
             label="Toggle Word Wrap",
             command=self.toggle_wrap
         )
+    def bind_events(
+        self
+    ):
+
+        self.bind(
+            "<Command-n>",
+            lambda e: self.new_file()
+        )
+
+        self.bind(
+            "<Command-o>",
+            lambda e: self.open_dialog()
+        )
+
+        self.bind(
+            "<Command-s>",
+            lambda e: self.save()
+        )
+
+        self.bind(
+            "<Command-Shift-S>",
+            lambda e: self.save_as()
+        )
+
+        self.bind(
+            "<Command-w>",
+            lambda e: self.close_editor()
+        )
+
+        self.bind(
+            "<Command-a>",
+            lambda e: self.select_all()
+        )
+
+        self.bind(
+            "<Command-z>",
+            lambda e: self.text.event_generate(
+                "<<Undo>>"
+            )
+        )
+
+        self.bind(
+            "<Command-Shift-z>",
+            lambda e: self.text.event_generate(
+                "<<Redo>>"
+            )
+        )
+
+        self.protocol(
+            "WM_DELETE_WINDOW",
+            self.close_editor
+        )
