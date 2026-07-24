@@ -112,3 +112,18 @@ class TextEditor(
             column=0,
             sticky="ns"
         )
+        self.text = tk.Text(
+            self.main_frame,
+            undo=True,
+            wrap="none",
+            font=self.editor_font,
+            borderwidth=0,
+            highlightthickness=0,
+            insertwidth=2
+        )
+
+        self.text.grid(
+            row=0,
+            column=1,
+            sticky="nsew"
+        )
