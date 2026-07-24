@@ -153,6 +153,7 @@ class TextEditor(
         self.text.configure(
             yscrollcommand=self.on_text_scroll,
             xscrollcommand=self.h_scroll.set
+        )
         self.status = ttk.Label(
             self,
             anchor="w"
@@ -163,3 +164,71 @@ class TextEditor(
         )
 
         self.update_status()
+    def on_vertical_scroll(
+        self,
+        *args
+    ):
+
+        self.text.yview(
+            *args
+        )
+
+        self.line_numbers.yview(
+            *args
+        )
+
+    def on_text_scroll(
+        self,
+        first,
+        last
+    ):
+
+        self.v_scroll.set(
+            first,
+            last
+        )
+
+        self.line_numbers.yview_moveto(
+            first
+        )
+    def create_menu(
+        self
+    ):
+
+        self.menu = tk.Menu(
+            self
+        )
+
+        self.configure(
+            menu=self.menu
+        )
+
+        self.file_menu = tk.Menu(
+            self.menu,
+            tearoff=False
+        )
+
+        self.edit_menu = tk.Menu(
+            self.menu,
+            tearoff=False
+        )
+
+        self.view_menu = tk.Menu(
+            self.menu,
+            tearoff=False
+        )
+
+        self.menu.add_cascade(
+            label="File",
+            menu=self.file_menu
+        )
+
+        self.menu.add_cascade(
+            label="Edit",
+            menu=self.edit_menu
+        )
+
+        self.menu.add_cascade(
+            label="View",
+            menu=self.view_menu
+        )
