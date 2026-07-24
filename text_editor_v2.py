@@ -232,3 +232,57 @@ class TextEditor(
             label="View",
             menu=self.view_menu
         )
+        self.edit_menu.add_command(
+            label="Undo",
+            accelerator="⌘Z",
+            command=lambda:
+            self.text.event_generate(
+                "<<Undo>>"
+            )
+        )
+
+        self.edit_menu.add_command(
+            label="Redo",
+            accelerator="⇧⌘Z",
+            command=lambda:
+            self.text.event_generate(
+                "<<Redo>>"
+            )
+        )
+
+        self.edit_menu.add_separator()
+
+        self.edit_menu.add_command(
+            label="Cut",
+            accelerator="⌘X",
+            command=lambda:
+            self.text.event_generate(
+                "<<Cut>>"
+            )
+        )
+
+        self.edit_menu.add_command(
+            label="Copy",
+            accelerator="⌘C",
+            command=lambda:
+            self.text.event_generate(
+                "<<Copy>>"
+            )
+        )
+
+        self.edit_menu.add_command(
+            label="Paste",
+            accelerator="⌘V",
+            command=lambda:
+            self.text.event_generate(
+                "<<Paste>>"
+            )
+        )
+
+        self.edit_menu.add_separator()
+
+        self.edit_menu.add_command(
+            label="Select All",
+            accelerator="⌘A",
+            command=self.select_all
+        )
