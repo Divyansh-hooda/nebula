@@ -382,3 +382,16 @@ class TextEditor(
         self.update_line_numbers()
 
         self.focus_editor()
+    def open_dialog(
+        self
+    ):
+
+        path = filedialog.askopenfilename()
+
+        if not path:
+
+            return
+
+        self.open_file(
+            path
+        )
