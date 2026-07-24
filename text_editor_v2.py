@@ -286,3 +286,21 @@ class TextEditor(
             accelerator="⌘A",
             command=self.select_all
         )
+        self.view_menu.add_command(
+            label="Zoom In",
+            accelerator="⌘+",
+            command=self.zoom_in
+        )
+
+        self.view_menu.add_command(
+            label="Zoom Out",
+            accelerator="⌘-",
+            command=self.zoom_out
+        )
+
+        self.view_menu.add_separator()
+
+        self.view_menu.add_command(
+            label="Toggle Word Wrap",
+            command=self.toggle_wrap
+        )
