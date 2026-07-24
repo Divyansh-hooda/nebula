@@ -88,6 +88,7 @@ class TextEditor(tk.Toplevel):
         )
 
         self.text.pack(
+            side="left",
             fill="both",
             expand=True
         )
@@ -143,25 +144,25 @@ class TextEditor(tk.Toplevel):
         )
         self.file_menu.add_command(
             label="New",
-            accelerator="Ctrl+N",
+            accelerator="⌘+N",
             command=self.new_file
         )
 
         self.file_menu.add_command(
             label="Open...",
-            accelerator="Ctrl+O",
+            accelerator="⌘+O",
             command=self.open_dialog
         )
 
         self.file_menu.add_command(
             label="Save",
-            accelerator="Ctrl+S",
+            accelerator="⌘+S",
             command=self.save
         )
 
         self.file_menu.add_command(
             label="Save As...",
-            accelerator="Ctrl+Shift+S",
+            accelerator="⇧⌘S",
             command=self.save_as
         )
 
@@ -173,14 +174,14 @@ class TextEditor(tk.Toplevel):
         )
         self.edit_menu.add_command(
             label="Undo",
-            accelerator="Ctrl+Z",
+            accelerator="⌘+Z",
             command=lambda:
             self.text.event_generate("<<Undo>>")
         )
 
         self.edit_menu.add_command(
             label="Redo",
-            accelerator="Ctrl+Y",
+            accelerator="⌘+Y",
             command=lambda:
             self.text.event_generate("<<Redo>>")
         )
@@ -189,21 +190,21 @@ class TextEditor(tk.Toplevel):
 
         self.edit_menu.add_command(
             label="Cut",
-            accelerator="Ctrl+X",
+            accelerator="⌘+X",
             command=lambda:
             self.text.event_generate("<<Cut>>")
         )
 
         self.edit_menu.add_command(
             label="Copy",
-            accelerator="Ctrl+C",
+            accelerator="⌘+C",
             command=lambda:
             self.text.event_generate("<<Copy>>")
         )
 
         self.edit_menu.add_command(
             label="Paste",
-            accelerator="Ctrl+V",
+            accelerator="⌘+V",
             command=lambda:
             self.text.event_generate("<<Paste>>")
         )
@@ -212,19 +213,19 @@ class TextEditor(tk.Toplevel):
 
         self.edit_menu.add_command(
             label="Select All",
-            accelerator="Ctrl+A",
+            accelerator="⌘+A",
             command=lambda:
             self.text.event_generate("<<SelectAll>>")
         )
         self.view_menu.add_command(
             label="Zoom In",
-            accelerator="Ctrl++",
+            accelerator="⌘++",
             command=self.zoom_in
         )
 
         self.view_menu.add_command(
             label="Zoom Out",
-            accelerator="Ctrl+-",
+            accelerator="⌘+-",
             command=self.zoom_out
         )
 
@@ -237,22 +238,22 @@ class TextEditor(tk.Toplevel):
     def bind_events(self):
 
         self.bind(
-            "<Control-s>",
+            "<Command-s>",
             lambda e: self.save()
         )
 
         self.bind(
-            "<Control-o>",
+            "<Command-o>",
             lambda e: self.open_dialog()
         )
 
         self.bind(
-            "<Control-n>",
+            "<Command-n>",
             lambda e: self.new_file()
         )
 
         self.bind(
-            "<Control-Shift-S>",
+            "<Command-Shift-S>",
             lambda e: self.save_as()
         )
 
