@@ -95,3 +95,20 @@ class TextEditor(
             1,
             weight=1
         )
+        self.line_numbers = tk.Text(
+            self.main_frame,
+            width=5,
+            padx=5,
+            takefocus=0,
+            border=0,
+            background="#202020",
+            foreground="#808080",
+            state="disabled",
+            wrap="none"
+        )
+
+        self.line_numbers.grid(
+            row=0,
+            column=0,
+            sticky="ns"
+        )
