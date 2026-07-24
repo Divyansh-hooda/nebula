@@ -153,4 +153,13 @@ class TextEditor(
         self.text.configure(
             yscrollcommand=self.on_text_scroll,
             xscrollcommand=self.h_scroll.set
+        self.status = ttk.Label(
+            self,
+            anchor="w"
         )
+
+        self.status.pack(
+            fill="x"
+        )
+
+        self.update_status()
