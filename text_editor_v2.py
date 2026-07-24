@@ -519,3 +519,23 @@ class TextEditor(
             return
 
         self.destroy()
+    def select_all(
+        self
+    ):
+
+        self.text.tag_add(
+            "sel",
+            "1.0",
+            "end"
+        )
+
+        self.text.mark_set(
+            "insert",
+            "1.0"
+        )
+
+        self.text.see(
+            "insert"
+        )
+
+        return "break"
