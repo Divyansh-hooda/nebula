@@ -150,3 +150,7 @@ class TextEditor(
             column=1,
             sticky="ew"
         )
+        self.text.configure(
+            yscrollcommand=self.on_text_scroll,
+            xscrollcommand=self.h_scroll.set
+        )
