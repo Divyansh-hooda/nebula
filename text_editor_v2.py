@@ -774,6 +774,7 @@ class TextEditor(
             )
 
             self.h_scroll.grid()
+
     def find_text(
         self
     ):
@@ -822,6 +823,54 @@ class TextEditor(
             background="#d18616",
             foreground="black"
         )
+
+    def replace_text(
+        self
+    ):
+
+        old = simpledialog.askstring(
+            "Replace",
+            "Find:"
+        )
+
+        if old is None:
+
+            return
+
+        new = simpledialog.askstring(
+            "Replace",
+            "Replace with:"
+        )
+
+        if new is None:
+
+            return
+
+        text = self.text.get(
+            "1.0",
+            "end-1c"
+        )
+
+        text = text.replace(
+            old,
+            new
+        )
+
+        self.text.delete(
+            "1.0",
+            "end"
+        )
+
+        self.text.insert(
+            "1.0",
+            text
+        )
+
+        self.modified = True
+
+        self.update_status()
+
+        self.update_line_numbers()
     def highlight_current_line(
         self,
         event=None
