@@ -120,7 +120,7 @@ class TextEditor(
             font=self.editor_font,
             borderwidth=0,
             highlightthickness=0,
-            insertwidth=2
+            insertwidth=2,
             inactiveselectbackground="#3c3c3c",
         )
 
@@ -377,6 +377,22 @@ class TextEditor(
             "<KeyRelease>",
             self.update_line_numbers,
             add="+"
+        )
+        self.text.bind(
+            "<KeyRelease>",
+            self.highlight_current_line,
+            add="+"
+        )
+
+        self.text.bind(
+            "<ButtonRelease-1>",
+            self.highlight_current_line,
+            add="+"
+        )
+
+        self.text.bind(
+            "<FocusIn>",
+            self.highlight_current_line
         )
     def new_file(
         self
