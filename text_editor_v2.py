@@ -121,6 +121,7 @@ class TextEditor(
             borderwidth=0,
             highlightthickness=0,
             insertwidth=2
+            inactiveselectbackground="#3c3c3c",
         )
 
         self.text.grid(
@@ -730,3 +731,24 @@ class TextEditor(
             )
 
             self.h_scroll.grid()
+    def highlight_current_line(
+        self,
+        event=None
+    ):
+
+        self.text.tag_remove(
+            "current_line",
+            "1.0",
+            "end"
+        )
+
+        self.text.tag_add(
+            "current_line",
+            "insert linestart",
+            "insert lineend+1c"
+        )
+
+        self.text.tag_configure(
+            "current_line",
+            background="#2b2b2b"
+        )
