@@ -4,6 +4,7 @@ from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import font
+from tkinter import simpledialog
 class TextEditor(
     tk.Toplevel
 ):
@@ -167,7 +168,7 @@ class TextEditor(
 
         self.update_status()
         self.blink_cursor()
-        
+
     def on_vertical_scroll(
         self,
         *args
@@ -256,6 +257,7 @@ class TextEditor(
 
         self.edit_menu.add_separator()
 
+
         self.edit_menu.add_command(
             label="Cut",
             accelerator="⌘X",
@@ -289,6 +291,19 @@ class TextEditor(
             label="Select All",
             accelerator="⌘A",
             command=self.select_all
+        )
+        self.edit_menu.add_separator()
+
+        self.edit_menu.add_command(
+            label="Find",
+            accelerator="⌘F",
+            command=self.find_text
+        )
+
+        self.edit_menu.add_command(
+            label="Replace",
+            accelerator="⌥⌘F",
+            command=self.replace_text
         )
         self.view_menu.add_command(
             label="Zoom In",
