@@ -688,3 +688,24 @@ class TextEditor(
             size=self.font_size
 
         )
+    def toggle_wrap(
+        self
+    ):
+
+        self.wrap = not self.wrap
+
+        if self.wrap:
+
+            self.text.config(
+                wrap="word"
+            )
+
+            self.h_scroll.grid_remove()
+
+        else:
+
+            self.text.config(
+                wrap="none"
+            )
+
+            self.h_scroll.grid()
