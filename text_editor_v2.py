@@ -769,3 +769,18 @@ class TextEditor(
             "current_line",
             background="#2b2b2b"
         )
+    def blink_cursor(
+        self
+    ):
+
+        self.text.config(
+
+            insertbackground="#ffffff",
+
+            insertwidth=2,
+
+            insertontime=600,
+
+            insertofftime=400
+
+        )
