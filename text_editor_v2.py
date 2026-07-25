@@ -620,3 +620,44 @@ class TextEditor(
             self.update_status()
 
             self.update_line_numbers()
+    def update_line_numbers(
+        self,
+        event=None
+    ):
+
+        self.line_numbers.config(
+            state="normal"
+        )
+
+        self.line_numbers.delete(
+            "1.0",
+            tk.END
+        )
+
+        lines = int(
+
+            self.text.index(
+                "end-1c"
+            ).split(".")[0]
+
+        )
+
+        content = "\n".join(
+
+            str(i)
+
+            for i in range(
+                1,
+                lines + 1
+            )
+
+        )
+
+        self.line_numbers.insert(
+            "1.0",
+            content
+        )
+
+        self.line_numbers.config(
+            state="disabled"
+        )
