@@ -575,6 +575,7 @@ class TextEditor(
         self.text.see(
             "insert"
         )
+        self.highlight_current_line()
 
         return "break"
     def confirm_discard(
