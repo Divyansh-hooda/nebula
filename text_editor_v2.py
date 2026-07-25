@@ -661,3 +661,30 @@ class TextEditor(
         self.line_numbers.config(
             state="disabled"
         )
+    def zoom_in(
+        self
+    ):
+
+        self.font_size += 1
+
+        self.editor_font.configure(
+
+            size=self.font_size
+
+        )
+
+    def zoom_out(
+        self
+    ):
+
+        if self.font_size <= 7:
+
+            return
+
+        self.font_size -= 1
+
+        self.editor_font.configure(
+
+            size=self.font_size
+
+        )
