@@ -539,3 +539,32 @@ class TextEditor(
         )
 
         return "break"
+    def confirm_discard(
+        self
+    ):
+
+        if not self.modified:
+
+            return True
+
+        answer = messagebox.askyesnocancel(
+
+            "Unsaved Changes",
+
+            "Do you want to save your changes?"
+
+        )
+
+        if answer is None:
+
+            return False
+
+        if answer:
+
+            self.save()
+
+            if self.modified:
+
+                return False
+
+        return True
