@@ -774,6 +774,54 @@ class TextEditor(
             )
 
             self.h_scroll.grid()
+    def find_text(
+        self
+    ):
+
+        word = simpledialog.askstring(
+            "Find",
+            "Find:"
+        )
+
+        if not word:
+
+            return
+
+        self.text.tag_remove(
+            "search",
+            "1.0",
+            "end"
+        )
+
+        start = "1.0"
+
+        while True:
+
+            pos = self.text.search(
+                word,
+                start,
+                stopindex="end"
+            )
+
+            if not pos:
+
+                break
+
+            end = f"{pos}+{len(word)}c"
+
+            self.text.tag_add(
+                "search",
+                pos,
+                end
+            )
+
+            start = end
+
+        self.text.tag_config(
+            "search",
+            background="#d18616",
+            foreground="black"
+        )
     def highlight_current_line(
         self,
         event=None
