@@ -356,6 +356,26 @@ class TextEditor(
             "WM_DELETE_WINDOW",
             self.close_editor
         )
+        self.text.bind(
+            "<<Modified>>",
+            self.text_modified
+        )
+
+        self.text.bind(
+            "<KeyRelease>",
+            self.update_status
+        )
+
+        self.text.bind(
+            "<ButtonRelease-1>",
+            self.update_status
+        )
+
+        self.text.bind(
+            "<KeyRelease>",
+            self.update_line_numbers,
+            add="+"
+        )
     def new_file(
         self
     ):
