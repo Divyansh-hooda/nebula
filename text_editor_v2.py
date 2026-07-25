@@ -568,3 +568,39 @@ class TextEditor(
                 return False
 
         return True
+    def update_status(
+        self,
+        event=None
+    ):
+
+        cursor = self.text.index(
+            "insert"
+        )
+
+        line, column = cursor.split(
+            "."
+        )
+
+        if self.file_path:
+
+            name = os.path.basename(
+                self.file_path
+            )
+
+        else:
+
+            name = "Untitled"
+
+        text = (
+            f"{name}    "
+            f"Ln {line}    "
+            f"Col {int(column)+1}"
+        )
+
+        if self.modified:
+
+            text += "    Modified"
+
+        self.status.config(
+            text=text
+        )
