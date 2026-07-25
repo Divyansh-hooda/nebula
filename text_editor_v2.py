@@ -166,6 +166,8 @@ class TextEditor(
         )
 
         self.update_status()
+        self.blink_cursor()
+        
     def on_vertical_scroll(
         self,
         *args
