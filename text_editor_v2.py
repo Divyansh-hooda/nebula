@@ -103,6 +103,7 @@ class TextEditor(
             border=0,
             background="#202020",
             foreground="#808080",
+            font=self.editor_font,
             state="disabled",
             wrap="none"
         )
