@@ -411,6 +411,15 @@ class TextEditor(
             "<FocusIn>",
             self.highlight_current_line
         )
+        self.bind(
+            "<Command-f>",
+            lambda e: self.find_text()
+        )
+
+        self.bind(
+            "<Command-Option-f>",
+            lambda e: self.replace_text()
+        )
     def new_file(
         self
     ):
