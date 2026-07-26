@@ -1013,3 +1013,32 @@ class TextEditor(
             insertofftime=400
 
         )
+    def show_find_bar(
+        self
+    ):
+
+        self.find_frame.pack(
+            fill="x",
+            before=self.status
+        )
+
+        self.find_entry.focus_set()
+
+        self.find_entry.select_range(
+            0,
+            tk.END
+        )
+
+    def hide_find_bar(
+        self
+    ):
+
+        self.text.tag_remove(
+            "search",
+            "1.0",
+            tk.END
+        )
+
+        self.find_frame.pack_forget()
+
+        self.text.focus_set()
