@@ -519,7 +519,7 @@ class TextEditor(
         )
         self.bind(
             "<Command-f>",
-            lambda e: self.find_text()
+            lambda e: self.show_find_bar()
         )
 
         self.bind(
