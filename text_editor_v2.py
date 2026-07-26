@@ -157,6 +157,7 @@ class TextEditor(
             yscrollcommand=self.on_text_scroll,
             xscrollcommand=self.h_scroll.set
         )
+        self.create_find_bar()
         self.status = ttk.Label(
             self,
             anchor="w"
