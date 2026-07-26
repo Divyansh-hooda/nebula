@@ -168,6 +168,111 @@ class TextEditor(
 
         self.update_status()
         self.blink_cursor()
+    def create_find_bar(
+        self
+    ):
+
+        self.find_frame = ttk.Frame(
+            self
+        )
+
+        self.find_var = tk.StringVar()
+
+        self.replace_var = tk.StringVar()
+
+        ttk.Label(
+            self.find_frame,
+            text="Find:"
+        ).pack(
+            side="left",
+            padx=(8,2)
+        )
+
+        self.find_entry = ttk.Entry(
+            self.find_frame,
+            textvariable=self.find_var,
+            width=25
+        )
+
+        self.find_entry.pack(
+            side="left",
+            padx=2
+        )
+
+        ttk.Label(
+            self.find_frame,
+            text="Replace:"
+        ).pack(
+            side="left",
+            padx=(8,2)
+        )
+
+        self.replace_entry = ttk.Entry(
+            self.find_frame,
+            textvariable=self.replace_var,
+            width=25
+        )
+
+        self.replace_entry.pack(
+            side="left",
+            padx=2
+        )
+
+        self.match_label = ttk.Label(
+            self.find_frame,
+            text="0 Matches"
+        )
+
+        self.match_label.pack(
+            side="left",
+            padx=10
+        )
+
+        ttk.Button(
+            self.find_frame,
+            text="Previous",
+            command=self.find_previous
+        ).pack(
+            side="left",
+            padx=2
+        )
+
+        ttk.Button(
+            self.find_frame,
+            text="Next",
+            command=self.find_next
+        ).pack(
+            side="left",
+            padx=2
+        )
+
+        ttk.Button(
+            self.find_frame,
+            text="Replace",
+            command=self.replace_current
+        ).pack(
+            side="left",
+            padx=2
+        )
+
+        ttk.Button(
+            self.find_frame,
+            text="Replace All",
+            command=self.replace_all
+        ).pack(
+            side="left",
+            padx=2
+        )
+
+        ttk.Button(
+            self.find_frame,
+            text="✕",
+            width=3,
+            command=self.hide_find_bar
+        ).pack(
+            side="right",
+            padx=5
+        )
 
     def on_vertical_scroll(
         self,
