@@ -59,7 +59,8 @@ class CodeEditor(
         self.create_menu()
         self.create_context_menu()
         self.bind_events()
-
+        print("Binding for <KeyRelease>:")
+        print(self.text.bind("<KeyRelease>"))
         if file_path:
 
             self.open_file(
