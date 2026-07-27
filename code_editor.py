@@ -298,6 +298,7 @@ class CodeEditor(
 
         return word
     def update_completion(self, event=None):
+        print("update_completion called")
 
         word = self.current_word()
 
@@ -834,6 +835,11 @@ class CodeEditor(
     def bind_events(
         self
     ):
+        self.text.bind(
+            "<KeyRelease>",
+            self.update_completion,
+            add="+"
+        )
         self.text.bind(
             "<KeyRelease>",
             self.update_completion,
