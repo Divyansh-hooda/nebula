@@ -274,7 +274,10 @@ class TextEditor(
             side="right",
             padx=5
         )
-
+        self.find_entry.bind(
+            "<KeyRelease>",
+            self.update_search
+        )
     def on_vertical_scroll(
         self,
         *args
