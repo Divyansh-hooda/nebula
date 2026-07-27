@@ -688,6 +688,63 @@ class CodeEditor(
             label="Toggle Word Wrap",
             command=self.toggle_wrap
         )
+    def create_context_menu(
+        self
+    ):
+
+        self.context_menu = tk.Menu(
+            self,
+            tearoff=False
+        )
+
+        self.context_menu.add_command(
+            label="Undo",
+            command=lambda:
+            self.text.event_generate(
+                "<<Undo>>"
+            )
+        )
+
+        self.context_menu.add_command(
+            label="Redo",
+            command=lambda:
+            self.text.event_generate(
+                "<<Redo>>"
+            )
+        )
+
+        self.context_menu.add_separator()
+
+        self.context_menu.add_command(
+            label="Cut",
+            command=lambda:
+            self.text.event_generate(
+                "<<Cut>>"
+            )
+        )
+
+        self.context_menu.add_command(
+            label="Copy",
+            command=lambda:
+            self.text.event_generate(
+                "<<Copy>>"
+            )
+        )
+
+        self.context_menu.add_command(
+            label="Paste",
+            command=lambda:
+            self.text.event_generate(
+                "<<Paste>>"
+            )
+        )
+
+        self.context_menu.add_separator()
+
+        self.context_menu.add_command(
+            label="Select All",
+            command=self.select_all
+        )
     def bind_events(
         self
     ):
