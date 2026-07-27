@@ -270,80 +270,80 @@ class CodeEditor(
                 )
 
                 start = end
-def current_word(self):
+    def current_word(self):
 
-    index = self.text.index("insert")
+        index = self.text.index("insert")
 
-    line, column = map(
-        int,
-        index.split(".")
-    )
-
-    text = self.text.get(
-        f"{line}.0",
-        f"{line}.{column}"
-    )
-
-    word = ""
-
-    for ch in reversed(text):
-
-        if ch.isalnum() or ch == "_":
-
-            word = ch + word
-
-        else:
-
-            break
-
-    return word
-def update_completion(self, event=None):
-
-    word = self.current_word()
-
-    if len(word) < 2:
-
-        self.suggestion_box.place_forget()
-
-        return
-
-    matches = [
-
-        w
-
-        for w in self.completion_words
-
-        if w.startswith(word)
-
-    ]
-
-    if not matches:
-
-        self.suggestion_box.place_forget()
-
-        return
-
-    self.suggestion_box.delete(
-        0,
-        tk.END
-    )
-
-    for m in matches[:20]:
-
-        self.suggestion_box.insert(
-            tk.END,
-            m
+        line, column = map(
+            int,
+            index.split(".")
         )
 
-    x, y, _, h = self.text.bbox("insert")
+        text = self.text.get(
+            f"{line}.0",
+            f"{line}.{column}"
+        )
 
-    self.suggestion_box.place(
+        word = ""
 
-        x=x,
+        for ch in reversed(text):
 
-        y=y+h+2
+            if ch.isalnum() or ch == "_":
 
-    )
+                word = ch + word
+
+            else:
+
+                break
+
+        return word
+    def update_completion(self, event=None):
+
+        word = self.current_word()
+
+        if len(word) < 2:
+
+            self.suggestion_box.place_forget()
+
+            return
+
+        matches = [
+
+            w
+
+            for w in self.completion_words
+
+            if w.startswith(word)
+
+        ]
+
+        if not matches:
+
+            self.suggestion_box.place_forget()
+
+            return
+
+        self.suggestion_box.delete(
+            0,
+            tk.END
+        )
+
+        for m in matches[:20]:
+
+            self.suggestion_box.insert(
+                tk.END,
+                m
+            )
+
+        x, y, _, h = self.text.bbox("insert")
+
+        self.suggestion_box.place(
+
+            x=x,
+
+            y=y+h+2
+
+        )
     def auto_indent(
         self,
         event
