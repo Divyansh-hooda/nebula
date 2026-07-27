@@ -1255,3 +1255,42 @@ class TextEditor(
         self.update_search()
 
         self.update_status()
+    def replace_all(
+        self
+    ):
+
+        find = self.find_var.get()
+
+        if not find:
+
+            return
+
+        replace = self.replace_var.get()
+
+        content = self.text.get(
+            "1.0",
+            "end-1c"
+        )
+
+        content = content.replace(
+            find,
+            replace
+        )
+
+        self.text.delete(
+            "1.0",
+            tk.END
+        )
+
+        self.text.insert(
+            "1.0",
+            content
+        )
+
+        self.modified = True
+
+        self.update_line_numbers()
+
+        self.update_search()
+
+        self.update_status()
