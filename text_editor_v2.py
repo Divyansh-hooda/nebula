@@ -1042,3 +1042,61 @@ class TextEditor(
         self.find_frame.pack_forget()
 
         self.text.focus_set()
+    def update_search(
+        self,
+        event=None
+    ):
+
+        self.text.tag_remove(
+            "search",
+            "1.0",
+            tk.END
+        )
+
+        word = self.find_var.get()
+
+        if not word:
+
+            self.match_label.config(
+                text="0 Matches"
+            )
+
+            return
+
+        start = "1.0"
+
+        count = 0
+
+        while True:
+
+            pos = self.text.search(
+                word,
+                start,
+                stopindex=tk.END
+            )
+
+            if not pos:
+
+                break
+
+            end = f"{pos}+{len(word)}c"
+
+            self.text.tag_add(
+                "search",
+                pos,
+                end
+            )
+
+            start = end
+
+            count += 1
+
+        self.text.tag_configure(
+            "search",
+            background="#d18616",
+            foreground="black"
+        )
+
+        self.match_label.config(
+            text=f"{count} Match(es)"
+        )
