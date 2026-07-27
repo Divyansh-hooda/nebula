@@ -839,7 +839,7 @@ class CodeEditor(
         print(self.update_completion)
         self.text.bind(
             "<KeyRelease>",
-            self.update_completion,
+            lambda e: print("AUTO COMPLETE TEST"),
             add="+"
         )
         self.text.bind(
