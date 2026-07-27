@@ -304,14 +304,14 @@ class CodeEditor(
             return
 
         matches = [
-
             w
-
             for w in self.completion_words
-
             if w.startswith(word)
-
         ]
+
+        if len(matches) == 1 and matches[0] == word:
+            self.suggestion_box.place_forget()
+            return
 
         if not matches:
 
