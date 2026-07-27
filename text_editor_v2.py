@@ -170,7 +170,36 @@ class TextEditor(
         )
 
         self.update_status()
+        self.configure_syntax_tags()
         self.blink_cursor()
+    def configure_syntax_tags(
+        self
+    ):
+
+        self.text.tag_configure(
+            "keyword",
+            foreground="#569CD6"
+        )
+
+        self.text.tag_configure(
+            "string",
+            foreground="#CE9178"
+        )
+
+        self.text.tag_configure(
+            "comment",
+            foreground="#6A9955"
+        )
+
+        self.text.tag_configure(
+            "number",
+            foreground="#B5CEA8"
+        )
+
+        self.text.tag_configure(
+            "function",
+            foreground="#DCDCAA"
+        )
     def create_find_bar(
         self
     ):
