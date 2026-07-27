@@ -250,6 +250,41 @@ class CodeEditor(
                 )
 
                 start = end
+    def auto_indent(
+        self,
+        event
+    ):
+
+        line = self.text.get(
+            "insert linestart",
+            "insert"
+        )
+
+        indent = ""
+
+        for ch in line:
+
+            if ch in (
+                " ",
+                "\t"
+            ):
+
+                indent += ch
+
+            else:
+
+                break
+
+        if line.rstrip().endswith(":"):
+
+            indent += "    "
+
+        self.text.insert(
+            "insert",
+            "\n" + indent
+        )
+
+        return "break"
     def create_find_bar(
         self
     ):
