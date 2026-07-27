@@ -827,6 +827,15 @@ class CodeEditor(
         self
     ):
         self.text.bind(
+            "<Down>",
+            lambda e: self.move_completion(1)
+        )
+
+        self.text.bind(
+            "<Up>",
+            lambda e: self.move_completion(-1)
+        )
+        self.text.bind(
             "<Tab>",
             self.accept_completion,
             add="+"
