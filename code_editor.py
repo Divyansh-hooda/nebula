@@ -827,6 +827,17 @@ class CodeEditor(
         self
     ):
         self.text.bind(
+            "<Tab>",
+            self.accept_completion,
+            add="+"
+        )
+
+        self.text.bind(
+            "<Return>",
+            self.accept_completion,
+            add="+"
+        )
+        self.text.bind(
             "<KeyRelease>",
             self.on_key_release
         )
@@ -1805,3 +1816,4 @@ class CodeEditor(
         self.suggestion_box.place_forget()
 
         return "break"
+
