@@ -552,6 +552,30 @@ class CodeEditor(
         self
     ):
         self.text.bind(
+            "(",
+            self.insert_parentheses
+        )
+
+        self.text.bind(
+            "[",
+            self.insert_brackets
+        )
+
+        self.text.bind(
+            "{",
+            self.insert_braces
+        )
+
+        self.text.bind(
+            "\"",
+            self.insert_double_quote
+        )
+
+        self.text.bind(
+            "'",
+            self.insert_single_quote
+        )
+        self.text.bind(
             "<Return>",
             self.auto_indent
         )
