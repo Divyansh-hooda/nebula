@@ -1221,3 +1221,37 @@ class TextEditor(
         )
 
         self.update_status()
+    def replace_current(
+        self
+    ):
+
+        if not self.text.tag_ranges(
+            "sel"
+        ):
+
+            return
+
+        selected = self.text.get(
+            "sel.first",
+            "sel.last"
+        )
+
+        if selected != self.find_var.get():
+
+            return
+
+        self.text.delete(
+            "sel.first",
+            "sel.last"
+        )
+
+        self.text.insert(
+            "insert",
+            self.replace_var.get()
+        )
+
+        self.modified = True
+
+        self.update_search()
+
+        self.update_status()
