@@ -301,6 +301,7 @@ class CodeEditor(
         print("update_completion called")
 
         word = self.current_word()
+        print("Current word:", word)
 
         if len(word) < 2:
 
