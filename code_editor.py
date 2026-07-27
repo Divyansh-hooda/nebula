@@ -59,8 +59,6 @@ class CodeEditor(
         self.create_menu()
         self.create_context_menu()
         self.bind_events()
-        print("Binding for <KeyRelease>:")
-        print(self.text.bind("<KeyRelease>"))
         if file_path:
 
             self.open_file(
@@ -135,8 +133,6 @@ class CodeEditor(
             insertwidth=2,
             inactiveselectbackground="#3c3c3c",
         )
-
-        print(self.text)
 
         self.text.grid(
             row=0,
@@ -298,10 +294,8 @@ class CodeEditor(
 
         return word
     def update_completion(self, event=None):
-        print("update_completion called")
 
         word = self.current_word()
-        print("Current word:", word)
 
         if len(word) < 2:
 
@@ -626,10 +620,6 @@ class CodeEditor(
             side="right",
             padx=5
         )
-        # self.find_entry.bind(
-        #     "<KeyRelease>",
-        #     self.update_search
-        # )
     def on_vertical_scroll(self,*args):
         self.text.yview(*args)
         self.line_numbers.yview(*args)
@@ -836,23 +826,10 @@ class CodeEditor(
     def bind_events(
         self
     ):
-        print("bind_events called")
-        print("Has update_completion:", hasattr(self, "update_completion"))
-        print(self.update_completion)
         self.text.bind(
             "<KeyRelease>",
             self.on_key_release
         )
-        # self.text.bind(
-        #     "<KeyRelease>",
-        #     lambda e: print("AUTO COMPLETE TEST"),
-        #     add="+"
-        # )
-        # self.text.bind(
-        #     "<KeyRelease>",
-        #     self.update_completion,
-        #     add="+"
-        # )
         self.text.bind(
             "<Button-2>",
             self.show_context_menu
@@ -974,28 +951,10 @@ class CodeEditor(
             "<<Modified>>",
             self.text_modified
         )
-
-        # self.text.bind(
-        #     "<KeyRelease>",
-        #     self.update_status
-        # )
-
         self.text.bind(
             "<ButtonRelease-1>",
             self.update_status
         )
-
-        # self.text.bind(
-        #     "<KeyRelease>",
-        #     self.update_line_numbers,
-        #     add="+"
-        # )
-        # self.text.bind(
-        #     "<KeyRelease>",
-        #     self.highlight_current_line,
-        #     add="+"
-        # )
-
         self.text.bind(
             "<ButtonRelease-1>",
             self.highlight_current_line,
@@ -1029,11 +988,6 @@ class CodeEditor(
             "<Return>",
             lambda e: self.replace_current()
         )
-        # self.text.bind(
-        #     "<KeyRelease>",
-        #     self.highlight_syntax,
-        #     add="+"
-        # )
     def new_file(
         self
     ):
@@ -1810,11 +1764,7 @@ class CodeEditor(
         )
 
     def on_key_release(self, event):
-        print("ON_KEY_RELEASE")
-
-        print("Before update_completion")
         self.update_completion(event)
-        print("After update_completion")
 
         self.update_status(event)
         self.update_line_numbers(event)
