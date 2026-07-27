@@ -50,6 +50,8 @@ class CodeEditor(
 
         self.create_menu()
 
+        self.create_context_menu()
+        
         self.bind_events()
 
         if file_path:
