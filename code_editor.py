@@ -632,6 +632,33 @@ class CodeEditor(
         self
     ):
         self.text.bind(
+            ")",
+            self.close_parenthesis
+        )
+
+        self.text.bind(
+            "]",
+            self.close_bracket
+        )
+
+        self.text.bind(
+            "}",
+            self.close_brace
+        )
+
+        self.text.bind(
+            "\"",
+            self.close_double_quote,
+            add="+"
+        )
+
+        self.text.bind(
+            "'",
+            self.close_single_quote,
+            add="+"
+        )
+        
+        self.text.bind(
             "(",
             self.insert_parentheses
         )
