@@ -365,6 +365,26 @@ class CodeEditor(
         )
 
         return "break"
+    def _skip_if_same(
+        self,
+        character
+    ):
+
+        current = self.text.get(
+            "insert",
+            "insert+1c"
+        )
+
+        if current == character:
+
+            self.text.mark_set(
+                "insert",
+                "insert+1c"
+            )
+
+            return True
+
+        return False
     def create_find_bar(
         self
     ):
@@ -657,7 +677,7 @@ class CodeEditor(
             self.close_single_quote,
             add="+"
         )
-        
+
         self.text.bind(
             "(",
             self.insert_parentheses
