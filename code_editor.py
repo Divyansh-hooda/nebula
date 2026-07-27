@@ -1770,3 +1770,38 @@ class CodeEditor(
         self.update_line_numbers(event)
         self.highlight_current_line(event)
         self.highlight_syntax(event)
+
+    def accept_completion(
+        self,
+        event=None
+    ):
+
+        if not self.suggestion_box.winfo_ismapped():
+
+            return
+
+        selection = self.suggestion_box.curselection()
+
+        if not selection:
+
+            selection = (0,)
+
+        suggestion = self.suggestion_box.get(
+            selection[0]
+        )
+
+        word = self.current_word()
+
+        self.text.delete(
+            f"insert-{len(word)}c",
+            "insert"
+        )
+
+        self.text.insert(
+            "insert",
+            suggestion
+        )
+
+        self.suggestion_box.place_forget()
+
+        return "break"
