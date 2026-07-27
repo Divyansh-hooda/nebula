@@ -1159,3 +1159,65 @@ class TextEditor(
         )
 
         self.update_status()
+    def find_previous(
+        self
+    ):
+
+        word = self.find_var.get()
+
+        if not word:
+
+            return
+
+        current = self.text.index(
+            "insert"
+        )
+
+        pos = "1.0"
+
+        last = None
+
+        while True:
+
+            found = self.text.search(
+                word,
+                pos,
+                stopindex=current
+            )
+
+            if not found:
+
+                break
+
+            last = found
+
+            pos = f"{found}+1c"
+
+        if last is None:
+
+            return
+
+        end = f"{last}+{len(word)}c"
+
+        self.text.tag_remove(
+            "sel",
+            "1.0",
+            tk.END
+        )
+
+        self.text.tag_add(
+            "sel",
+            last,
+            end
+        )
+
+        self.text.mark_set(
+            "insert",
+            end
+        )
+
+        self.text.see(
+            last
+        )
+
+        self.update_status()
