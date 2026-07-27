@@ -136,7 +136,7 @@ class CodeEditor(
             inactiveselectbackground="#3c3c3c",
         )
 
-        print(self.text),
+        print(self.text)
 
         self.text.grid(
             row=0,
@@ -1809,11 +1809,14 @@ class CodeEditor(
             event.y_root
         )
 
-    def on_key_release(self, event):
-        print("ON_KEY_RELEASE")
-        print(self.text)
-        self.update_completion(event)
-        self.update_status(event)
-        self.update_line_numbers(event)
-        self.highlight_current_line(event)
-        self.highlight_syntax(event)
+def on_key_release(self, event):
+    print("ON_KEY_RELEASE")
+
+    print("Before update_completion")
+    self.update_completion(event)
+    print("After update_completion")
+
+    self.update_status(event)
+    self.update_line_numbers(event)
+    self.highlight_current_line(event)
+    self.highlight_syntax(event)
