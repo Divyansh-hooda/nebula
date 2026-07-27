@@ -843,6 +843,11 @@ def update_completion(self, event=None):
         self
     ):
         self.text.bind(
+            "<KeyRelease>",
+            self.update_completion,
+            add="+"
+        )
+        self.text.bind(
             "<Button-2>",
             self.show_context_menu
         )
