@@ -30,6 +30,14 @@ class CodeEditor(
 
         self.font_size = 13
 
+        self.completion_words = sorted(
+
+            keyword.kwlist +
+
+            dir(builtins)
+
+        )
+
         self.editor_font = font.Font(
             family="Menlo",
             size=self.font_size
@@ -135,6 +143,15 @@ class CodeEditor(
             column=1,
             sticky="nsew"
         )
+        self.suggestion_box = tk.Listbox(
+            self,
+            height=8,
+            width=30,
+            activestyle="none",
+            exportselection=False
+        )
+
+        self.suggestion_box.place_forget()
         self.v_scroll = ttk.Scrollbar(
             self.main_frame,
             orient="vertical",
