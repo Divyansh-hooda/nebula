@@ -56,11 +56,8 @@ class CodeEditor(
             500
         )
         self.create_widgets()
-
         self.create_menu()
-
         self.create_context_menu()
-
         self.bind_events()
 
         if file_path:
@@ -836,6 +833,7 @@ class CodeEditor(
     def bind_events(
         self
     ):
+        print("bind_events called")
         self.text.bind(
             "<KeyRelease>",
             self.update_completion,
