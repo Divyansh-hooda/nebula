@@ -200,6 +200,56 @@ class TextEditor(
             "function",
             foreground="#DCDCAA"
         )
+    def highlight_syntax(
+        self,
+        event=None
+    ):
+
+        text = self.text.get(
+            "1.0",
+            "end-1c"
+        )
+
+        for tag in (
+            "keyword",
+            "string",
+            "comment",
+            "number",
+            "function"
+        ):
+
+            self.text.tag_remove(
+                tag,
+                "1.0",
+                "end"
+            )
+
+        for kw in keyword.kwlist:
+
+            start = "1.0"
+
+            while True:
+
+                pos = self.text.search(
+                    rf"\m{kw}\M",
+                    start,
+                    regexp=True,
+                    stopindex="end"
+                )
+
+                if not pos:
+
+                    break
+
+                end = f"{pos}+{len(kw)}c"
+
+                self.text.tag_add(
+                    "keyword",
+                    pos,
+                    end
+                )
+
+                start = end
     def create_find_bar(
         self
     ):
