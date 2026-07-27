@@ -333,6 +333,22 @@ class CodeEditor(
         )
 
         return "break"
+    def insert_double_quote(
+        self,
+        event
+    ):
+
+        self.text.insert(
+            "insert",
+            "\"\""
+        )
+
+        self.text.mark_set(
+            "insert",
+            "insert-1c"
+        )
+
+        return "break"
     def create_find_bar(
         self
     ):
