@@ -835,6 +835,8 @@ class CodeEditor(
         self
     ):
         print("bind_events called")
+        print("Has update_completion:", hasattr(self, "update_completion"))
+        print(self.update_completion)
         self.text.bind(
             "<KeyRelease>",
             self.update_completion,
