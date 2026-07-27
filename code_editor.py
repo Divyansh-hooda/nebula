@@ -7,6 +7,7 @@ from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import font
 from tkinter import simpledialog
+import builtins
 class CodeEditor(
     tk.Toplevel
 ):
