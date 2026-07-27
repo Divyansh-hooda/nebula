@@ -51,7 +51,7 @@ class CodeEditor(
         self.create_menu()
 
         self.create_context_menu()
-        
+
         self.bind_events()
 
         if file_path:
@@ -750,6 +750,20 @@ class CodeEditor(
     def bind_events(
         self
     ):
+        self.text.bind(
+            "<Button-2>",
+            self.show_context_menu
+        )
+
+        self.text.bind(
+            "<Button-3>",
+            self.show_context_menu
+        )
+
+        self.text.bind(
+            "<Control-Button-1>",
+            self.show_context_menu
+        )
         self.text.bind(
             ")",
             self.close_parenthesis
@@ -1682,3 +1696,12 @@ class CodeEditor(
         self.update_search()
 
         self.update_status()
+    def show_context_menu(
+        self,
+        event
+    ):
+
+        self.context_menu.tk_popup(
+            event.x_root,
+            event.y_root
+        )
