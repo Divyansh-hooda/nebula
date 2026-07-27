@@ -126,6 +126,7 @@ class CodeEditor(
             sticky="ns"
         )
         self.text = tk.Text(
+            print(self.text),
             self.main_frame,
             undo=True,
             wrap="none",
@@ -1809,7 +1810,7 @@ class CodeEditor(
 
     def on_key_release(self, event):
         print("ON_KEY_RELEASE")
-
+        print(self.text)
         self.update_completion(event)
         self.update_status(event)
         self.update_line_numbers(event)
