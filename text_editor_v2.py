@@ -624,6 +624,11 @@ class TextEditor(
             "<Return>",
             lambda e: self.replace_current()
         )
+        self.text.bind(
+            "<KeyRelease>",
+            self.highlight_syntax,
+            add="+"
+        )
     def new_file(
         self
     ):
