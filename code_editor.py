@@ -1817,3 +1817,33 @@ class CodeEditor(
 
         return "break"
 
+def move_completion(
+    self,
+    direction
+):
+    if not self.suggestion_box.winfo_ismapped():
+        return "break"
+    size = self.suggestion_box.size()
+    if size == 0:
+        return "break"
+    selection = self.suggestion_box.curselection()
+    if selection:
+        index = selection[0]
+    else:
+        index = 0
+    index += direction
+    index %= size
+    self.suggestion_box.selection_clear(
+        0,
+        tk.END
+    )
+    self.suggestion_box.selection_set(
+        index
+    )
+    self.suggestion_box.activate(
+        index
+    )
+    self.suggestion_box.see(
+        index
+    )
+    return "break"
