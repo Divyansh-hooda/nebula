@@ -385,6 +385,46 @@ class CodeEditor(
             return True
 
         return False
+    def close_parenthesis(
+        self,
+        event
+    ):
+
+        if self._skip_if_same(")"):
+
+            return "break"
+    def close_bracket(
+        self,
+        event
+    ):
+
+        if self._skip_if_same("]"):
+
+            return "break"
+    def close_brace(
+        self,
+        event
+    ):
+
+        if self._skip_if_same("}"):
+
+            return "break"
+    def close_double_quote(
+        self,
+        event
+    ):
+
+        if self._skip_if_same("\""):
+
+            return "break"
+    def close_single_quote(
+        self,
+        event
+    ):
+
+        if self._skip_if_same("'"):
+
+            return "break"
     def create_find_bar(
         self
     ):
