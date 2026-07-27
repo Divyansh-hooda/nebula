@@ -529,6 +529,20 @@ class TextEditor(
             "<Command-Option-f>",
             lambda e: self.replace_text()
         )
+        self.find_entry.bind(
+            "<Return>",
+            lambda e: self.find_next()
+        )
+
+        self.find_entry.bind(
+            "<Escape>",
+            lambda e: self.hide_find_bar()
+        )
+
+        self.replace_entry.bind(
+            "<Return>",
+            lambda e: self.replace_current()
+        )
     def new_file(
         self
     ):
