@@ -551,7 +551,10 @@ class CodeEditor(
     def bind_events(
         self
     ):
-
+        self.text.bind(
+            "<Return>",
+            self.auto_indent
+        )
         self.bind(
             "<Command-n>",
             lambda e: self.new_file()
