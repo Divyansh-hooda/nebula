@@ -628,18 +628,10 @@ def update_completion(self, event=None):
             "<KeyRelease>",
             self.update_search
         )
-    def on_vertical_scroll(
-        self,
-        *args
-    ):
-
-        self.text.yview(
-            *args
-        )
-
-        self.line_numbers.yview(
-            *args
-        )
+    def on_vertical_scroll(self,*args):
+        self.text.yview(*args)
+        self.line_numbers.yview(*args)
+        self.suggestion_box.place_forget()
 
     def on_text_scroll(
         self,
