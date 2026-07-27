@@ -126,7 +126,6 @@ class CodeEditor(
             sticky="ns"
         )
         self.text = tk.Text(
-            print(self.text),
             self.main_frame,
             undo=True,
             wrap="none",
@@ -136,6 +135,8 @@ class CodeEditor(
             insertwidth=2,
             inactiveselectbackground="#3c3c3c",
         )
+
+        print(self.text),
 
         self.text.grid(
             row=0,
