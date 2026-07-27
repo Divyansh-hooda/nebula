@@ -1809,14 +1809,14 @@ class CodeEditor(
             event.y_root
         )
 
-def on_key_release(self, event):
-    print("ON_KEY_RELEASE")
+    def on_key_release(self, event):
+        print("ON_KEY_RELEASE")
 
-    print("Before update_completion")
-    self.update_completion(event)
-    print("After update_completion")
+        print("Before update_completion")
+        self.update_completion(event)
+        print("After update_completion")
 
-    self.update_status(event)
-    self.update_line_numbers(event)
-    self.highlight_current_line(event)
-    self.highlight_syntax(event)
+        self.update_status(event)
+        self.update_line_numbers(event)
+        self.highlight_current_line(event)
+        self.highlight_syntax(event)
