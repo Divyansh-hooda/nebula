@@ -7,7 +7,7 @@ from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import font
 from tkinter import simpledialog
-class TextEditor(
+class CodeEditor(
     tk.Toplevel
 ):
 
@@ -35,7 +35,7 @@ class TextEditor(
         )
 
         self.title(
-            "Nebula Text Editor"
+            "Nebula Code Editor"
         )
 
         self.geometry(
@@ -647,7 +647,7 @@ class TextEditor(
         self.modified = False
 
         self.title(
-            "Nebula Text Editor"
+            "Nebula Code Editor"
         )
 
         self.update_status()
@@ -706,7 +706,7 @@ class TextEditor(
             )
 
             self.title(
-                f"Nebula Text Editor — {os.path.basename(path)}"
+                f"Nebula Code Editor — {os.path.basename(path)}"
             )
 
             self.update_line_numbers()
@@ -780,7 +780,7 @@ class TextEditor(
 
         self.title(
 
-            f"Nebula Text Editor — {os.path.basename(path)}"
+            f"Nebula Code Editor — {os.path.basename(path)}"
 
         )
     def close_editor(

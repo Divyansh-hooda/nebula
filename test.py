@@ -1,9 +1,9 @@
 import tkinter as tk
-from text_editor_v2 import TextEditor
+from code_editor import CodeEditor
 
 root = tk.Tk()
 root.withdraw()
 
-TextEditor(root)
+CodeEditor(root)
 
 root.mainloop()
