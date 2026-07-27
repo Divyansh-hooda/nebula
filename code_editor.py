@@ -154,6 +154,21 @@ class CodeEditor(
             command=self.on_vertical_scroll
         )
 
+        self.suggestion_box.bind(
+            "<<ListboxSelect>>",
+            lambda e: self.suggestion_box.focus_set()
+        )
+
+        self.suggestion_box.bind(
+            "<ButtonRelease-1>",
+            self.accept_completion
+        )
+
+        self.suggestion_box.bind(
+            "<Double-Button-1>",
+            self.accept_completion
+        )
+
         self.v_scroll.grid(
             row=0,
             column=2,
@@ -1795,64 +1810,58 @@ class CodeEditor(
         self,
         event=None
     ):
-
         if not self.suggestion_box.winfo_ismapped():
-
-            return
-
+            return "break"
         selection = self.suggestion_box.curselection()
-
         if not selection:
+            return "break"
+            suggestion = self.suggestion_box.get(
+                selection[0]
+            )
 
-            selection = (0,)
+            word = self.current_word()
 
-        suggestion = self.suggestion_box.get(
-            selection[0]
+            self.text.delete(
+                f"insert-{len(word)}c",
+                "insert"
+            )
+
+            self.text.insert(
+                "insert",
+                suggestion
+            )
+
+            self.suggestion_box.place_forget()
+
+            return "break"
+
+    def move_completion(
+        self,
+        direction
+    ):
+        if not self.suggestion_box.winfo_ismapped():
+            return "break"
+        size = self.suggestion_box.size()
+        if size == 0:
+            return "break"
+        selection = self.suggestion_box.curselection()
+        if selection:
+            index = selection[0]
+        else:
+            index = 0
+        index += direction
+        index %= size
+        self.suggestion_box.selection_clear(
+            0,
+            tk.END
         )
-
-        word = self.current_word()
-
-        self.text.delete(
-            f"insert-{len(word)}c",
-            "insert"
+        self.suggestion_box.selection_set(
+            index
         )
-
-        self.text.insert(
-            "insert",
-            suggestion
+        self.suggestion_box.activate(
+            index
         )
-
-        self.suggestion_box.place_forget()
-
+        self.suggestion_box.see(
+            index
+        )
         return "break"
-
-def move_completion(
-    self,
-    direction
-):
-    if not self.suggestion_box.winfo_ismapped():
-        return "break"
-    size = self.suggestion_box.size()
-    if size == 0:
-        return "break"
-    selection = self.suggestion_box.curselection()
-    if selection:
-        index = selection[0]
-    else:
-        index = 0
-    index += direction
-    index %= size
-    self.suggestion_box.selection_clear(
-        0,
-        tk.END
-    )
-    self.suggestion_box.selection_set(
-        index
-    )
-    self.suggestion_box.activate(
-        index
-    )
-    self.suggestion_box.see(
-        index
-    )
-    return "break"
