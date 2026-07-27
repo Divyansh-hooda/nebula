@@ -1103,3 +1103,59 @@ class TextEditor(
         self.match_label.config(
             text=f"{count} Match(es)"
         )
+    def find_next(
+        self
+    ):
+
+        word = self.find_var.get()
+
+        if not word:
+
+            return
+
+        start = self.text.index(
+            "insert+1c"
+        )
+
+        pos = self.text.search(
+            word,
+            start,
+            stopindex=tk.END
+        )
+
+        if not pos:
+
+            pos = self.text.search(
+                word,
+                "1.0",
+                stopindex=tk.END
+            )
+
+            if not pos:
+
+                return
+
+        end = f"{pos}+{len(word)}c"
+
+        self.text.tag_remove(
+            "sel",
+            "1.0",
+            tk.END
+        )
+
+        self.text.tag_add(
+            "sel",
+            pos,
+            end
+        )
+
+        self.text.mark_set(
+            "insert",
+            end
+        )
+
+        self.text.see(
+            pos
+        )
+
+        self.update_status()
