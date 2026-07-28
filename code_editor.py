@@ -31,13 +31,10 @@ class CodeEditor(
         self.font_size = 13
 
         self.completion_words = sorted(
-
             keyword.kwlist +
-
             dir(builtins)
-
         )
-
+        self.local_words = []
         self.editor_font = font.Font(
             family="Menlo",
             size=self.font_size
@@ -308,6 +305,23 @@ class CodeEditor(
                 break
 
         return word
+    def update_local_words(self):
+
+        text = self.text.get(
+            "1.0",
+            "end-1c"
+        )
+
+        words = set(
+
+            re.findall(
+                r"[A-Za-z_][A-Za-z0-9_]*",
+                text
+            )
+
+        )
+
+        self.local_words = sorted(words)
     def update_completion(self, event=None):
 
         word = self.current_word()
@@ -317,7 +331,12 @@ class CodeEditor(
             self.suggestion_box.place_forget()
 
             return
-
+        all_words = sorted(
+            set(
+                self.completion_words +
+                self.local_words
+            )
+        )
         matches = [
             w
             for w in self.completion_words
@@ -1808,8 +1827,8 @@ class CodeEditor(
         )
 
     def on_key_release(self, event):
+        self.update_local_words()
         self.update_completion(event)
-
         self.update_status(event)
         self.update_line_numbers(event)
         self.highlight_current_line(event)
