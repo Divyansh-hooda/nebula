@@ -842,6 +842,15 @@ class CodeEditor(
         self
     ):
         self.text.bind(
+            "<Escape>",
+            self.hide_completion
+        )
+
+        self.suggestion_box.bind(
+            "<Escape>",
+            self.hide_completion
+        )
+        self.text.bind(
             "<Down>",
             lambda e: self.move_completion(1)
         )
@@ -1865,3 +1874,21 @@ class CodeEditor(
             index
         )
         return "break"
+    def hide_completion(
+        self,
+        event=None
+    ):
+        self.suggestion_box.place_forget()
+        self.text.focus_set()
+        return "break"
+    def click_editor(
+        self,
+        event
+    ):
+
+        self.suggestion_box.place_forget()
+        self.text.bind(
+            "<Button-1>",
+            self.click_editor,
+            add="+"
+        )
