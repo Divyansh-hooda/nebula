@@ -9,9 +9,9 @@ from queue import Queue
 from tkinter import ttk
 from tkinter import messagebox
 from tkinter import simpledialog
-import config
-import database
-import utils
+import core.config as config
+import core.database as database
+import core.utils as utils
 class Nebula:
     def __init__(self, root, clipboard):
         self.root = root
