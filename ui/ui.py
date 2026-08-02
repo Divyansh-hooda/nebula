@@ -33,7 +33,7 @@ class Nebula:
             bg=config.BACKGROUND
         )
         self.make_ui()
-        database.create_bookmark_table()
+        # database.create_bookmark_table()
         self.load(self.current)
         self.refresh_favorites()
         self.refresh_favorites()
