@@ -11,7 +11,7 @@ print("4")
 import core.database as database
 print("5")
 
-from ui.old_ui import Nebula
+from ui.legacy_ui import Nebula
 print("6")
 
 from core.clipboard_manager import ClipboardManager
