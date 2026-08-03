@@ -54,10 +54,6 @@ class NebulaApp(ctk.CTk):
 
         self.activity_bar.grid_propagate(False)
 
-        # -------------------------
-        # Sidebar
-        # -------------------------
-
         self.sidebar = ctk.CTkFrame(
             self,
             width=SIDEBAR_WIDTH,
@@ -73,10 +69,6 @@ class NebulaApp(ctk.CTk):
 
         self.sidebar.grid_propagate(False)
 
-        # -------------------------
-        # Workspace
-        # -------------------------
-
         self.workspace = ctk.CTkFrame(
             self,
             fg_color=BACKGROUND,
@@ -88,3 +80,37 @@ class NebulaApp(ctk.CTk):
             column=2,
             sticky="nsew"
         )
+
+        self.inspector = ctk.CTkFrame(
+            self,
+            width=INSPECTOR_WIDTH,
+            fg_color=SURFACE_ALT,
+            corner_radius=0
+        )
+
+        self.inspector.grid(
+            row=1,
+            column=3,
+            sticky="nsew"
+        )
+
+        self.inspector.grid_propagate(False)
+
+        self.statusbar = ctk.CTkFrame(
+            self,
+            height=STATUSBAR_HEIGHT,
+            fg_color=SURFACE,
+            corner_radius=0
+        )
+
+        self.statusbar.grid(
+            row=2,
+            column=0,
+            columnspan=4,
+            sticky="nsew"
+        )
+
+        self.statusbar.grid_propagate(False)
+
+    def run(self):
+        self.mainloop()
