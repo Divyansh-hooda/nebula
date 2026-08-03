@@ -38,3 +38,53 @@ class NebulaApp(ctk.CTk):
         )
 
         self.titlebar.grid_propagate(False)
+
+        self.activity_bar = ctk.CTkFrame(
+            self,
+            width=ACTIVITY_BAR_WIDTH,
+            fg_color=SURFACE,
+            corner_radius=0
+        )
+
+        self.activity_bar.grid(
+            row=1,
+            column=0,
+            sticky="nsew"
+        )
+
+        self.activity_bar.grid_propagate(False)
+
+        # -------------------------
+        # Sidebar
+        # -------------------------
+
+        self.sidebar = ctk.CTkFrame(
+            self,
+            width=SIDEBAR_WIDTH,
+            fg_color=SURFACE_ALT,
+            corner_radius=0
+        )
+
+        self.sidebar.grid(
+            row=1,
+            column=1,
+            sticky="nsew"
+        )
+
+        self.sidebar.grid_propagate(False)
+
+        # -------------------------
+        # Workspace
+        # -------------------------
+
+        self.workspace = ctk.CTkFrame(
+            self,
+            fg_color=BACKGROUND,
+            corner_radius=0
+        )
+
+        self.workspace.grid(
+            row=1,
+            column=2,
+            sticky="nsew"
+        )
