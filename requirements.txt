@@ -1,2 +1,4 @@
 pillow
 cryptography
+customtkinter
+sv-ttk
