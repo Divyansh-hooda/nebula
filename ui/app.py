@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from ui.components.titlebar import TitleBar
+from ui.components.activity_bar import ActivityBar
 from ui.theme import *
 
 
@@ -34,12 +35,7 @@ class NebulaApp(ctk.CTk):
 
         self.titlebar.grid_propagate(False)
 
-        self.activity_bar = ctk.CTkFrame(
-            self,
-            width=ACTIVITY_BAR_WIDTH,
-            fg_color=SURFACE,
-            corner_radius=0
-        )
+        self.activity_bar = ActivityBar(self)
 
         self.activity_bar.grid(
             row=1,
