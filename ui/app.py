@@ -1,5 +1,5 @@
 import customtkinter as ctk
-
+from ui.components.titlebar import TitleBar
 from ui.theme import *
 
 
@@ -23,12 +23,7 @@ class NebulaApp(ctk.CTk):
         self.grid_rowconfigure(1, weight=1)
         self.grid_columnconfigure(2, weight=1)
 
-        self.titlebar = ctk.CTkFrame(
-            self,
-            height=TITLEBAR_HEIGHT,
-            fg_color=SURFACE,
-            corner_radius=0
-        )
+        self.titlebar = TitleBar(self)
 
         self.titlebar.grid(
             row=0,
